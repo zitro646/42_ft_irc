@@ -17,9 +17,7 @@ CXXFLAGS 	= -Wall -Wextra -Werror
 #
 SRC_PATH    	= srcs
 SUBFILE1_PATH   = server
-SUBFILE2_PATH   = server_objects
 SUBFILE4_PATH   = general
-SUBFILE5_PATH   = commands
 OBJ_PATH    	= objects
 TEST_PATH		= test
 
@@ -27,15 +25,10 @@ TEST_PATH		= test
 
 SUBFILE1_SRC = server.cpp server_comm.cpp server_set_up.cpp  server_utilities.cpp
 
-SUBFILE2_SRC = client.cpp 
-
 SUBFILE4_SRC = aux_functions.cpp check_input_data.cpp
-
-SUBFILE5_SRC = commands.cpp
 
 SRC =  	main.cpp \
 		$(addprefix $(SUBFILE1_PATH)/, $(SUBFILE1_SRC)) \
-		$(addprefix $(SUBFILE2_PATH)/, $(SUBFILE2_SRC)) \
 		$(addprefix $(SUBFILE4_PATH)/, $(SUBFILE4_SRC)) \
 		$(addprefix $(SUBFILE5_PATH)/, $(SUBFILE5_SRC)) 
 
@@ -53,9 +46,7 @@ OBJS =  $(addprefix $(OBJ_PATH)/, $(SRC:%.cpp=%.o))
 $(OBJ_PATH):
 	mkdir -p $(OBJ_PATH)
 	mkdir -p $(addprefix $(OBJ_PATH)/, $(SUBFILE1_PATH))
-	mkdir -p $(addprefix $(OBJ_PATH)/, $(SUBFILE2_PATH))
 	mkdir -p $(addprefix $(OBJ_PATH)/, $(SUBFILE4_PATH))
-	mkdir -p $(addprefix $(OBJ_PATH)/, $(SUBFILE5_PATH))
 
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.cpp | $(OBJ_PATH)

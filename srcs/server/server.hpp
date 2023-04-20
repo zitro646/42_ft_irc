@@ -3,19 +3,15 @@
 
 #include "../general/general.hpp"
 #include "I_server.hpp"
-#include "../commands/I_commands.hpp"
-#include "../server_objects/objects.hpp"
 
 
 
-class	server : public I_server , public I_commands
+class	server : public I_server 
 {
 
 	private:
 
 		pollfd				fds[N_CLIENTS];
-		client				clients[N_CLIENTS];
-		//channel				channel[N_CLIENTS];
 		int					listening_socket;
 		data_server 		serv_data;
 
@@ -38,31 +34,14 @@ class	server : public I_server , public I_commands
 		/*###########################################
 		#		UTILITIES    	FUNCTIONS			#
 		############################################*/
-		int		find_client_nick		(std::string str, data_running *run);
-		int 	find_client_username	(std::string str, data_running *run);
-		int		find_client_realname	(std::string str, data_running *run);
 		int		recv_message			(int fd, std::string &str);
 		int		send_message			(int fd, std::string str);
-		int		check_client_NICK_USER	(int i);
-		// int 	check_channel_exist		(std::string str);
-		// int		channel_possition		(std::string str);
 
 
 		/*###########################################
 		#			DEBUG    	FUNCTIONS			#
 		############################################*/
 		void fds_search_data(void) const;
-
-		/*###########################################
-		#			COMMANDS    FUNCTIONS			#
-		############################################*/
-		typedef void (server::*funptr) (int i , std::string str , data_running *run);
-		void 	welcome_client		(int fd);
-		void	extract_MSG			(int i , std::string str , data_running *run);
-		void	extract_USERNAME	(int i , std::string str , data_running *run);
-		void	extract_NICK		(int i , std::string str , data_running *run);
-		void	extract_JOIN		(int i , std::string str , data_running *run);
-		void 	DISCONNECT_client	(int i , std::string str , data_running *run);
 
 	public:
 

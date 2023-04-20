@@ -6,6 +6,8 @@
 #define N_CLIENTS	5+1			//Numero de Clientes (fd) + el fd del host
 #define TIMEOUT_MS	3*1000*60 	//Tiempo de desconexion en caso de no recivir nada
 
+#define SERV_VERS	"0.01"
+
 #define NICKNAME	"NICK"
 #define MESSAGE		"MSG"
 #define USERNAME	"USER"
@@ -23,6 +25,8 @@
 #include <unistd.h>
 #include <vector>
 #include <sstream>
+#include <chrono>
+#include <ctime>
 
 
 //Struct para almacenar los datos del servidor
