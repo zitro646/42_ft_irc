@@ -2,17 +2,17 @@
 #define SERVER_HPP
 
 #include "../general/general.hpp"
-#include "I_server.hpp"
+#include "../server_objects/objects.hpp"
 
 
 
-class	server : public I_server 
+class server
 {
 
 	private:
 
+		client				clients[N_CLIENTS];
 		pollfd				fds[N_CLIENTS];
-		int					listening_socket;
 		data_server 		serv_data;
 
 
@@ -62,7 +62,6 @@ class	server : public I_server
 		/*###########################################
 		#			INTERFACE	FUNCTIONS			#
 		############################################*/
-		int		server_listening	(void);
 		int		start				(void);
 };
 
