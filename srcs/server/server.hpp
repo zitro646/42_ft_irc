@@ -27,13 +27,17 @@ class server
 		void	search_fds		(data_running *run);
 		int		accept_client	(data_running *run);
 		int		recieve_data	(data_running *run, int i);
-		int		msg_to_channel		(int i, std::string str);
+		int		msg_to_all  	(int i, std::string str);
 		int		close_fds_client(int i, data_running *run);
 		void	analize_msg		(int i , std::string str , data_running *run);
 
 		/*###########################################
 		#		UTILITIES    	FUNCTIONS			#
 		############################################*/
+		int		find_client_nick		(std::string str, data_running *run);
+		int 	find_client_username	(std::string str, data_running *run);
+		int		find_client_realname	(std::string str, data_running *run);
+		int		check_client_NICK_USER	(int i);
 		int		recv_message			(int fd, std::string &str);
 		int		send_message			(int fd, std::string str);
 
@@ -42,6 +46,16 @@ class server
 		#			DEBUG    	FUNCTIONS			#
 		############################################*/
 		void fds_search_data(void) const;
+
+		/*###########################################
+		#			COMMANDS    FUNCTIONS			#
+		############################################*/
+		typedef void (server::*funptr) (int i , std::string str , data_running *run);
+		void	extract_MSG			(int i , std::string str , data_running *run);
+		void	extract_USERNAME	(int i , std::string str , data_running *run);
+		void	extract_NICK		(int i , std::string str , data_running *run);
+		void	extract_JOIN		(int i , std::string str , data_running *run);
+		void 	DISCONNECT_client	(int i , std::string str , data_running *run);
 
 	public:
 

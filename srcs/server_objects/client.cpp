@@ -45,7 +45,6 @@ client &client::operator=(const client &tmp)
 
 std::ostream &operator<<(std::ostream& os, const client &tmp)
 {
-	std::cout << "Operator output called" << std::endl;
 	os << "Client output" << std::endl;
 	os << "realname_host	|     " << tmp.getrealname_host() << std::endl;
 	os << "username_host	|     " << tmp.getusername_host() << std::endl;
