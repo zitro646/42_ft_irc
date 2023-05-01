@@ -6,7 +6,7 @@
 /*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 03:00:06 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/04/27 04:06:15 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/05/01 19:27:33 by mortiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	server::accept_client(data_running *run)
 		fds[run->n_active_fds].events = POLL_IN;
 		fds[run->n_active_fds - 1].fd = run->new_sd;
 		fds[run->n_active_fds - 1].events = POLLIN;
-		std::cout << "New client added to the network ..." << std::endl;
+		std::cout << get_Time_now() << "New client added to the network ..." << std::endl << "Now there are " << run->n_active_fds << " clients connected to the server" << std::endl << std::endl;
 		run->n_active_fds++;
 		// this->fds_search_data(); // para visualizar los fds
 	}
@@ -66,9 +66,9 @@ int	server::close_fds_client(int i, data_running *run)
             }
 			x--;
 			run->n_active_fds--;
+			std::cout << get_Time_now() << "Closed client [" << i << "] conection ..." << std::endl << "Now there are " << (run->n_active_fds - 1) << " clients connected to the server" << std::endl << std::endl;
 		}
 	}
-	std::cout << "Cerramos connexion con un cliente" << std::endl;
 	// this->fds_search_data();
 	return (1);
 }

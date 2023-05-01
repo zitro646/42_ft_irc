@@ -4,15 +4,28 @@
 #define	sock_in		struct sockaddr_in
 #define	sock_addr	struct sockaddr
 #define N_CLIENTS	2+1			//Numero de Clientes (fd) + el fd del host
-#define TIMEOUT_MS	3*1000*60 	//Tiempo de desconexion en caso de no recivir nada
+#define TIMEOUT_MS	10*1000*60 	//Tiempo de desconexion en caso de no recivir nada
 
 #define SERV_VERS	"0.01"
+
+
+// Colores
+#define RESET   "\033[0m"
+#define BLACK   "\033[30m"      /* Black */
+#define RED     "\033[31m"      /* Red */
+#define GREEN   "\033[32m"      /* Green */
+#define YELLOW  "\033[33m"      /* Yellow */
+#define BLUE    "\033[34m"      /* Blue */
+#define MAGENTA "\033[35m"      /* Magenta */
+#define CYAN    "\033[36m"      /* Cyan */
+#define WHITE   "\033[37m"      /* White */
 
 #define NICKNAME	"NICK"
 #define MESSAGE		"PRIVMSG"
 #define USERNAME	"USER"
 #define JOIN		"JOIN"
 #define DISCONNECT	"DISCONNECT"
+#define PART		"PART"
 
 
 #include <poll.h>
@@ -52,6 +65,6 @@ int							find_single_word_on_str (std::string str , std::string word);
 int							str_end_word_position (std::string str , std::string end);
 bool						check_data_correct(data_server data);
 bool						is_server_listening(data_server *serv_data, pollfd *fds);
-
+std::string 				get_Time_now			(void);
 
 #endif

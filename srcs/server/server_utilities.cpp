@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server_utilities.cpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josuna-t <josuna-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 18:37:55 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/04/30 17:08:46 by josuna-t         ###   ########.fr       */
+/*   Updated: 2023/05/01 19:29:55 by mortiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ int server::recv_message(int fd , std::string &str)
 		return (0);;
 	}
     str = std::string(buff,bytes);
+	std::cout << get_Time_now() << BLUE << "Message from fd(" << fd << "):"<< std::endl << str << RESET << std::endl;
     return (1);
 }
 
@@ -125,5 +126,6 @@ int server::send_message(int fd, std::string str)
 		std::cout << "Error send() failed " << std::endl;
 		return (0);
 	}
-  return (1);
+	std::cout << get_Time_now() << RED << "Reply to fd(" << fd << "):"<< std::endl << str << RESET << std::endl;
+  	return (1);
 }

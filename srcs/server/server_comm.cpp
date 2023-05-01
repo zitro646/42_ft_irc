@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server_comm.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josuna-t <josuna-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 18:59:58 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/04/27 21:29:14 by josuna-t         ###   ########.fr       */
+/*   Updated: 2023/05/01 19:12:57 by mortiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,16 +76,11 @@ void	server::search_fds(data_running *run)
 		else if(fds[i].revents != 17) //17 means quit conexion
 		{
 			if(!recieve_data(run,i)) //Recibimos el mensaje y lo procesamos, en caso de no recibir nada cerramos la conexion considerando que occurio un error
-			{
-				std::cout << "El cliente en la pos "<< i << " ha cerrado " << std::endl;
 				this->close_fds_client(i, run);
-			}
+			
 		}
 		else //Cerramos la conexion
-		{
-				std::cout << "El cliente en la pos "<< i << " ha cerrado " << std::endl;
-				this->close_fds_client(i, run);
-		}
+			this->close_fds_client(i, run);
 	}
 	return;
 }
@@ -102,7 +97,7 @@ int server::recieve_data(data_running *run, int i)
 	
 	if (!close_connection) //Procesamos el mensaje
 	{
-		std::cout << "MSG from " << clients[i].getnick() << " : "<< str ;
+		//std::cout << "MSG from " << clients[i].getnick() << " : "<< str ;
 		this->analize_msg(i, str, run);//Analizamos el mensaje y mostramos en el terminal los datos no procesados
 	}
 	else //Si paso algo raro cerramos el cliente
@@ -118,13 +113,13 @@ int server::recieve_data(data_running *run, int i)
 void server::analize_msg (int i, std::string str , data_running *run)
 {
 	std::vector <std::string>line = split_in_vector(str,'\n');
-	std::string cmd[5] = {NICKNAME,USERNAME,MESSAGE,JOIN,DISCONNECT};
-	server::funptr function[5] = {&server::extract_NICK, &server::extract_USERNAME, &server::extract_MSG, &server::extract_JOIN, &server::DISCONNECT_client}; // &server::extract_JOIN,
+	std::string cmd[6] = {NICKNAME,USERNAME,MESSAGE,JOIN,DISCONNECT,PART};
+	server::funptr function[6] = {&server::extract_NICK, &server::extract_USERNAME, &server::extract_MSG, &server::extract_JOIN, &server::DISCONNECT_client,&server::PART_channel}; // &server::extract_JOIN,
   	if (line.size() >= 1)
 	{
 		for (int y = 0; y < (int)line.size(); y++)
 		{
-			for (int x = 0; x < 4; x++)
+			for (int x = 0; x < 6; x++)
 			{
 				if (find_single_word_on_str(line[y], cmd[x]) != -1)
 					(this->*(function[x]))(i , line[y] , run);

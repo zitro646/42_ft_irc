@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux_functions.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josuna-t <josuna-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 13:33:58 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/04/27 21:22:54 by josuna-t         ###   ########.fr       */
+/*   Updated: 2023/05/01 18:49:27 by mortiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,12 @@ int str_end_word_position (std::string str , std::string end)
   // std::cout << "crash1.2" << std::endl;
   aux += end.length();
   return (aux);
+}
+
+std::string get_Time_now (void)
+{
+    std::time_t now = time(0);
+    char* date_time = ctime(&now);
+
+    return (date_time);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josuna-t <josuna-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 12:00:57 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/04/27 17:59:04 by josuna-t         ###   ########.fr       */
+/*   Updated: 2023/05/01 19:54:31 by mortiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,12 @@ int main(int argc, char **argv)
 	(void)argc;
 	(void)argv;
 	server *serv;
-	
+
 	if (argc != 4)
 		return (exit_msg("Unexact number of argvs"));
 	serv = new server(argv[1], argv[2], argv[3]);
 	if (check_data_correct(serv->get_serv_data()))
-	{
-		std::cout << "GOOD CHECK "<< std::endl << *serv <<std::endl;
 		serv->start();
-	}
 	else
 		std::cout << "BAD CHECK "<< std::endl << *serv <<std::endl;
 	delete serv;

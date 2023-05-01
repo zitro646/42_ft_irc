@@ -58,6 +58,8 @@ class server
 		void	extract_NICK		(int i , std::string str , data_running *run);
 		void	extract_JOIN		(int i , std::string str , data_running *run);
 		void 	DISCONNECT_client	(int i , std::string str , data_running *run);
+		void 	PART_channel		(int i , std::string str , data_running *run);
+		
 
 	public:
 
