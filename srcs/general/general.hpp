@@ -20,12 +20,15 @@
 #define CYAN    "\033[36m"      /* Cyan */
 #define WHITE   "\033[37m"      /* White */
 
-#define NICKNAME	"NICK"
-#define MESSAGE		"PRIVMSG"
-#define USERNAME	"USER"
-#define JOIN		"JOIN"
-#define DISCONNECT	"DISCONNECT"
-#define PART		"PART"
+
+//Comands names 
+// #define NICKNAME	"NICK"
+// #define MESSAGE		"PRIVMSG"
+// #define USERNAME	"USER"
+// #define JOIN		"JOIN"
+// #define DISCONNECT	"DISCONNECT"
+// #define PART		"PART"
+// #define PING		"PING"
 
 
 #include <poll.h>

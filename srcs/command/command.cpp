@@ -6,16 +6,16 @@
 /*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 13:06:53 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/01 20:45:33 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/05/02 18:29:50 by mortiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../server/server.hpp"
 
-#define RPL_WELCOME(nick) ":localhost 001 " + nick + " : welcome\r\n"
-#define RPL_YOURHOST(hostname) ":localhost 002 : Your host is " + hostname + " , running version <version>\r\n"
-#define RPL_CREATED ":localhost 003 : This server was created <datetime>\r\n"
-#define RPL_MYINFO ":localhost 004 : <client> <servername> <version> <available user modes> <available channel modes> <channel modes with a parameter>\r\n"
+#define RPL_WELCOME(ip_server , nick) ":" + ip_server + " 001 " + nick + " : welcome\r\n"
+#define RPL_YOURHOST(ip_server , hostname) ":" + ip_server + " 002 : Your host is " + hostname + " , running version <version>\r\n"
+#define RPL_CREATED(ip_server) ":" + ip_server + " 003 : This server was created <datetime>\r\n"
+#define RPL_MYINFO(ip_server) ":" + ip_server + " 004 : <client> <servername> <version> <available user modes> <available channel modes> <channel modes with a parameter>\r\n"
 
 //REPLYS NICK
 #define ERR_NONICKNAMEGIVEN(ip_server)	":" + ip_server + " 431 :No nickname given\r\n" //NO parametros
@@ -23,7 +23,7 @@
 #define ERR_NICKNAMEINUSE(ip_server , nick) ":" + ip_server + " 433 " + nick + " :Nickname is already in use\r\n" //Nick ya en uso
 
 //FALTA implementar ERR_ERRONEUSNICKNAME 
-void server::extract_NICK	(int i , std::string str , data_running *run) 
+void server::NICK	(int i , std::string str , data_running *run) 
 {
 	std::vector <std::string>	line;
 	std::string nick;
@@ -49,13 +49,13 @@ void server::extract_NICK	(int i , std::string str , data_running *run)
 #define ERR_ALREADYREGISTERED(ip_server)	":" + ip_server + " 462 :You may not reregister\r\n" //Ya esta registrado
 
 //Rehacer el extract UserName
-void server::extract_USERNAME	(int client_id , std::string str , data_running *run)
+void server::USERNAME	(int client_id , std::string str , data_running *run)
 {
 	std::vector <std::string>	line;
 	std::vector <std::string>	line2;
 	int aux;
 
-	aux = find_single_word_on_str(str , USERNAME);
+	aux = find_single_word_on_str(str , "USER");
 	line = split_in_vector(&str[aux],' ');
 	line2 = split_in_vector(&str[aux],':');
 	if ( line.size() >= 5 && line2.size() == 2)
@@ -63,37 +63,33 @@ void server::extract_USERNAME	(int client_id , std::string str , data_running *r
 		line[1].erase(line[1].find_last_not_of(" \n\r\t")+1);
 		line2[1].erase(line2[1].find_last_not_of("\n\r\t")+1);
 
-		//Intentamos crear el real name
-		if (!this->find_client_realname(line2[1],run))
-			this->clients[client_id].setrealname_host(line2[1]);
-		else
-			this->send_message(this->fds[client_id].fd,"Server : USER realname is already taken \n" );
 		//Intentamos crear el user name
-		if (!this->find_client_username(line[1],run) && this->clients[client_id].getnick() != "" )
+		if (!this->find_client_username(line[1],run))
 		{
+			this->clients[client_id].setrealname_host(line2[1]);
 			this->clients[client_id].setusername_host(line[1]);
-			this->clients[client_id].setuserip(line[2]);
-			this->send_message(this->fds[client_id].fd,RPL_WELCOME(this->clients[client_id].getnick()));
-            this->send_message(this->fds[client_id].fd,RPL_YOURHOST(this->clients[client_id].getusername_host()));
-            this->send_message(this->fds[client_id].fd,RPL_CREATED);
-            this->send_message(this->fds[client_id].fd,RPL_MYINFO);
+			this->clients[client_id].setuserip(line[3]);
+			this->send_message(this->fds[client_id].fd,RPL_WELCOME(this->get_host() , this->clients[client_id].getnick()));
+            this->send_message(this->fds[client_id].fd,RPL_YOURHOST( this->get_host() , this->clients[client_id].getusername_host()));
+            this->send_message(this->fds[client_id].fd,RPL_CREATED(this->get_host()));
+            this->send_message(this->fds[client_id].fd,RPL_MYINFO(this->get_host()));
 		}
 		else
-			this->send_message(this->fds[client_id].fd,"Server : USER username is already taken \n" );
+			this->send_message(this->fds[client_id].fd,ERR_ALREADYREGISTERED(this->get_host()));
 	}
 	else
-		this->send_message(this->fds[client_id].fd,"Server : Cannot set up USER\n");
+		this->send_message(this->fds[client_id].fd,ERR_NEEDMOREPARAMS(this->get_host()));
   
   	return;
 }
 
-void server::extract_MSG	(int i , std::string str , data_running *run)
+void server::MSG	(int i , std::string str , data_running *run)
 {
 	(void)run;
 	int aux;
 	std::string channel;
 	
-	aux = find_single_word_on_str(str , MESSAGE);
+	aux = find_single_word_on_str(str , "PRIVMSG");
 	channel = str.substr(8, str.find(" ", 8) - 8);
 	if (this->check_client_NICK_USER(i))
 	{
@@ -107,7 +103,7 @@ void server::extract_MSG	(int i , std::string str , data_running *run)
   return;
 }
 
-void server::extract_JOIN	(int i , std::string str , data_running *run)
+void server::JOIN	(int i , std::string str , data_running *run)
 {
 	(void)run;
 	std::vector <std::string>	line;
@@ -143,7 +139,7 @@ void server::extract_JOIN	(int i , std::string str , data_running *run)
 
 
 // IMPORTANTE FALTAN LOS RPL para autentificar que salio del canal
-void 	server::PART_channel	(int i , std::string str , data_running *run)
+void 	server::PART	(int i , std::string str , data_running *run)
 {
 	(void)run;
 	std::vector <std::string>	line = split_in_vector(str,' ');
@@ -153,6 +149,11 @@ void 	server::PART_channel	(int i , std::string str , data_running *run)
 		
 		if (this->channels.find(channel) != this->channels.end() && (this->channels[channel].find(clients[i].getusername_host()) != this->channels[channel].end()))
 		{
+			std::map<std::string,int>::iterator iter;
+            for (iter = this->channels[channel].begin(); iter != this->channels[channel].end(); iter++)
+            {
+                this->send_message(iter->second, ":" + clients[i].getnick() + "!~" + clients[i].getusername_host() + " PART " + channel + "\n");
+            }
 			this->channels[channel].erase(this->channels[channel].find(clients[i].getusername_host()));
 			std::cout << "Server : User "<< clients[i].getnick()<< " deleted from channel "<< channel << std::endl;
 		}
@@ -166,7 +167,9 @@ void 	server::PART_channel	(int i , std::string str , data_running *run)
 	
 }
 
-void 	server::DISCONNECT_client	(int i , std::string str , data_running *run)
+
+//ELIMINAR A LOS CANALES de los que pertenece al cliente
+void 	server::DISCONNECT	(int i , std::string str , data_running *run)
 {
 	(void)run;
 	std::vector <std::string>	line;
@@ -178,7 +181,7 @@ void 	server::DISCONNECT_client	(int i , std::string str , data_running *run)
 		if (line[1] == "*" || line[1] == this->serv_data.host)
 		{
 			if (line.size() > 2)
-				this->msg_to_all(i, clients[i].getnick() + ":" + &str[find_single_word_on_str(line[2] , MESSAGE)] + "\n", "");
+				this->msg_to_all(i, clients[i].getnick() + ":" + &str[find_single_word_on_str(line[2] , "MESSAGE")] + "\n", "");
 			this->close_fds_client(i, run);
 		}
 		else
@@ -187,4 +190,21 @@ void 	server::DISCONNECT_client	(int i , std::string str , data_running *run)
 	}
 	else
 		this->send_message(this->fds[i].fd,"Server :Error not enought args on disconnect\n");
+}
+
+
+// PING REPLIES
+#define ERR_NOORIGIN(ip_server)	":" + ip_server + " 409 :No origin specified\r\n" //NO dio parametros para el ping
+void 	server::PONG	(int i , std::string str , data_running *run)
+{
+	(void)run;
+	std::vector <std::string> line = split_in_vector(str,' ');
+	int aux = find_single_word_on_str(str , "PING");
+	std::string msg = &str[aux + 5];
+
+	
+	if (line.size() >= 2)
+		this->send_message(this->fds[i].fd , ":" +this->get_host()+ " PONG "+this->clients[i].getuserip()+" :"+msg+"\r\n");
+	else
+		this->send_message(this->fds[i].fd,ERR_NOORIGIN(this->get_host()));
 }
