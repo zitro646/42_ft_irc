@@ -6,7 +6,7 @@
 /*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 13:06:53 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/02 18:29:50 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/05/02 19:26:52 by mortiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,17 @@ void server::NICK	(int i , std::string str , data_running *run)
 	line = split_in_vector(str,' ');
 	if ( line.size() >= 2)
 	{
-		nick = line[1].erase(line[1].find_last_not_of(" \n\r\t")+1);
-		if (this->find_client_nick(nick,run))
-			this->send_message(this->fds[i].fd,ERR_NICKNAMEINUSE(this->get_host(),nick)); //ERR_NICKNAMEINUSE
-		else			
-			this->clients[i].setnick(nick);	
+		nick = &str[find_single_word_on_str(str , line[1])];
+		// std::cout << " Integridad del nick " << check_nickname_restrictions(nick) << std::endl;
+		if (check_nickname_restrictions(nick))
+		{
+			if (this->find_client_nick(nick,run))
+				this->send_message(this->fds[i].fd,ERR_NICKNAMEINUSE(this->get_host(),nick)); //ERR_NICKNAMEINUSE
+			else
+				this->clients[i].setnick(nick);
+		}
+		else
+			this->send_message(this->fds[i].fd,ERR_ERRONEUSNICKNAME(this->get_host())); //ERR_ERRONEUSNICKNAME
 	}
 	else
 		this->send_message(this->fds[i].fd,ERR_NONICKNAMEGIVEN(this->get_host())); // ERR_NONICKNAMEGIVEN
@@ -171,7 +177,6 @@ void 	server::PART	(int i , std::string str , data_running *run)
 //ELIMINAR A LOS CANALES de los que pertenece al cliente
 void 	server::DISCONNECT	(int i , std::string str , data_running *run)
 {
-	(void)run;
 	std::vector <std::string>	line;
 
 	line = split_in_vector(str,' ');
@@ -200,11 +205,14 @@ void 	server::PONG	(int i , std::string str , data_running *run)
 	(void)run;
 	std::vector <std::string> line = split_in_vector(str,' ');
 	int aux = find_single_word_on_str(str , "PING");
-	std::string msg = &str[aux + 5];
+	std::string msg ;
 
 	
 	if (line.size() >= 2)
+	{
+		msg = &str[aux + 5];
 		this->send_message(this->fds[i].fd , ":" +this->get_host()+ " PONG "+this->clients[i].getuserip()+" :"+msg+"\r\n");
+	}
 	else
 		this->send_message(this->fds[i].fd,ERR_NOORIGIN(this->get_host()));
 }

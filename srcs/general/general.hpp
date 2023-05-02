@@ -69,5 +69,6 @@ int							str_end_word_position (std::string str , std::string end);
 bool						check_data_correct(data_server data);
 bool						is_server_listening(data_server *serv_data, pollfd *fds);
 std::string 				get_Time_now			(void);
+bool    					check_nickname_restrictions (std::string nick);
 
 #endif

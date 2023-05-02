@@ -6,7 +6,7 @@
 /*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 18:59:58 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/02 18:20:54 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/05/02 19:52:36 by mortiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,14 +112,21 @@ int server::recieve_data(data_running *run, int i)
 // y los procesamos para ejecutar las distintas ordenes.
 void server::analize_msg (int i, std::string str , data_running *run)
 {
+	(void) i;
+	(void) str;
+	(void) run;
 	std::vector <std::string>line = split_in_vector(str,'\n');
-	std::string cmd[7] = {"NICK","USER","PRIVMSG","JOIN","DISCONNECT","PART","PING"};
-	server::funptr function[7] = {&server::NICK, &server::USERNAME, &server::MSG, &server::JOIN, &server::DISCONNECT,&server::PART, &server::PONG};// &server::extract_JOIN,
-  	if (line.size() >= 1)
+	std::string cmd[8] = {"NICK","USER","PRIVMSG","JOIN","DISCONNECT","PART","PING", "LIST"};
+	server::funptr function[8] = {&server::NICK, &server::USERNAME, &server::MSG, &server::JOIN, &server::DISCONNECT,&server::PART, &server::PONG, &server::PONG};// &server::extract_JOIN,
+  	// std::cout << "MMMMMMMMMMMMMMMMMMMMMMM" << std::endl << line[0] << std::endl << "MMMMMMMMMMMMMMMMMMMMMMM"<< std::endl;
+	// std::cout << int(line[0][4]) <<std::endl;
+	// std::cout << line[0].size() <<std::endl;
+	// std::cout << line[0].length() <<std::endl;
+	if (line.size() >= 1)
 	{
 		for (int y = 0; y < (int)line.size(); y++)
 		{
-			for (int x = 0; x < 7; x++)
+			for (int x = 0; x < 8; x++)
 			{
 				if (find_single_word_on_str(line[y], cmd[x]) != -1)
 					(this->*(function[x]))(i , line[y] , run);
