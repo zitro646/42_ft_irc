@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: josuna-t <josuna-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 13:06:53 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/02 19:26:52 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/05/04 19:17:48 by josuna-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,12 @@ void server::NICK	(int i , std::string str , data_running *run)
 	std::string nick;
 	
 	line = split_in_vector(str,' ');
+	std::cout << line[1] << std::endl;
 	if ( line.size() >= 2)
 	{
-		nick = &str[find_single_word_on_str(str , line[1])];
+		//nick = &str[find_single_word_on_str(str , line[1])]; #No se que hace esta linea pero no funciona.
+		nick = line[1];
+		std::cout << "Valor de nick: " << nick << std::endl;
 		// std::cout << " Integridad del nick " << check_nickname_restrictions(nick) << std::endl;
 		if (check_nickname_restrictions(nick))
 		{
@@ -173,6 +176,23 @@ void 	server::PART	(int i , std::string str , data_running *run)
 	
 }
 
+void 	server::LIST	(int i , std::string str , data_running *run)
+{
+	(void)run;
+	(void)str;
+	std::vector <std::string>	line;
+	std::cout << "HOLA\n";
+	this->send_message(this->fds[i].fd, ":" + this->get_host() + " 321" + clients[i].getusername_host() + " Channel : Users Name\n");
+		std::map<std::string,std::map<std::string,int> >::iterator iter;
+		for (iter = this->channels.begin(); iter != this->channels.end(); iter++)
+		{
+			this->send_message(this->fds[i].fd, ":" + this->get_host() + " 322" + clients[i].getusername_host() + " " + iter->first + " " + std::to_string(iter->second.size()) + ":\n");
+			std::cout << + (int)iter->second.size();
+			std::cout << i << " " << iter->first << std::endl;
+		} 
+		this->send_message(this->fds[i].fd, ":" + this->get_host() + " 323 " + clients[i].getusername_host() + " " +  + " :End of /LIST list.\n"); //RPL_
+	return;
+}
 
 //ELIMINAR A LOS CANALES de los que pertenece al cliente
 void 	server::DISCONNECT	(int i , std::string str , data_running *run)
