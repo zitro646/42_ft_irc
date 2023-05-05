@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 12:00:57 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/01 19:54:31 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/05/04 06:39:23 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int exit_msg(std::string msg)
 
 int main(int argc, char **argv)
 {
-	atexit(leaks);
+	// atexit(leaks);
 	(void)argc;
 	(void)argv;
 	server *serv;
@@ -38,6 +38,7 @@ int main(int argc, char **argv)
 		serv->start();
 	else
 		std::cout << "BAD CHECK "<< std::endl << *serv <<std::endl;
+	
 	delete serv;
 	return (0);
 }

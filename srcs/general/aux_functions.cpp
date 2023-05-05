@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux_functions.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 13:33:58 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/02 19:53:55 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/05/04 07:54:09 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,19 @@
 
 std::vector<std::string> split_in_vector(std::string str, char c)
 {
-    std::stringstream 			test(str);
+     std::stringstream 			test(str);
     std::string 				segment;
     std::vector <std::string>	seglist;
 
     while (std::getline(test,segment,c))
-	{
-		segment[segment.length()] = '\0';
-    	seglist.push_back(segment);
-	}
-	return (seglist);
+    {
+        size_t last_char = segment.find_last_of('\r');
+        if (last_char != std::string::npos) 
+            segment.erase(last_char);
+        seglist.push_back(segment);
+    }
+
+    return seglist;
 }
 
 int find_single_word_on_str (std::string str , std::string word)
@@ -31,7 +34,7 @@ int find_single_word_on_str (std::string str , std::string word)
     std::string newstr(str);
     for (int x = newstr.find(word); x != -1; x = newstr.find(word))
     {
-        if (newstr[x + word.length()] == ' ')
+        if (newstr[x + word.length()] == ' ' || newstr[x + word.length()] == '\0')
             return (x);
         else
             newstr = &newstr[x + word.length()];

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 13:06:53 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/02 19:26:52 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/05/06 00:48:41 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,10 @@
 #define ERR_NICKNAMEINUSE(ip_server , nick) ":" + ip_server + " 433 " + nick + " :Nickname is already in use\r\n" //Nick ya en uso
 
 //FALTA implementar ERR_ERRONEUSNICKNAME 
-void server::NICK	(int i , std::string str , data_running *run) 
-{
-	std::vector <std::string>	line;
-	std::string nick;
-	
-	line = split_in_vector(str,' ');
-	if ( line.size() >= 2)
+void server::NICK	(int i , std::string nick , data_running *run) 
+{	
+	if ( nick != "")
 	{
-		nick = &str[find_single_word_on_str(str , line[1])];
 		// std::cout << " Integridad del nick " << check_nickname_restrictions(nick) << std::endl;
 		if (check_nickname_restrictions(nick))
 		{
@@ -59,11 +54,10 @@ void server::USERNAME	(int client_id , std::string str , data_running *run)
 {
 	std::vector <std::string>	line;
 	std::vector <std::string>	line2;
-	int aux;
 
-	aux = find_single_word_on_str(str , "USER");
-	line = split_in_vector(&str[aux],' ');
-	line2 = split_in_vector(&str[aux],':');
+	
+	line = split_in_vector(str,' ');
+	line2 = split_in_vector(str,':');
 	if ( line.size() >= 5 && line2.size() == 2)
 	{
 		line[1].erase(line[1].find_last_not_of(" \n\r\t")+1);
@@ -89,6 +83,8 @@ void server::USERNAME	(int client_id , std::string str , data_running *run)
   	return;
 }
 
+
+//Rehacer
 void server::MSG	(int i , std::string str , data_running *run)
 {
 	(void)run;
@@ -114,8 +110,8 @@ void server::JOIN	(int i , std::string str , data_running *run)
 	(void)run;
 	std::vector <std::string>	line;
 	line = split_in_vector(str,' ');
-	std::string channel = line[1].substr(0, line[1].size() - 1);
-	if (line.size() == 2)
+	std::string channel = line[0].substr(0, line[1].size() - 1);
+	if (line.size() == 1)
 	{
 		if (this->channels.find(channel) == this->channels.end() || (this->channels[channel].find(clients[i].getusername_host()) == this->channels[channel].end()))
 		{
@@ -149,8 +145,8 @@ void 	server::PART	(int i , std::string str , data_running *run)
 {
 	(void)run;
 	std::vector <std::string>	line = split_in_vector(str,' ');
-	std::string channel = line[1].substr(0, line[1].size() - 1);
-	if (line.size() >= 2)
+	std::string channel = line[0].substr(0, line[1].size() - 1);
+	if (line.size() >= 1)
 	{
 		
 		if (this->channels.find(channel) != this->channels.end() && (this->channels[channel].find(clients[i].getusername_host()) != this->channels[channel].end()))
@@ -174,27 +170,20 @@ void 	server::PART	(int i , std::string str , data_running *run)
 }
 
 
-//ELIMINAR A LOS CANALES de los que pertenece al cliente
+//ELIMINAR A LOS CANALES de los que pertenece al cliente y rehacer disconnect
 void 	server::DISCONNECT	(int i , std::string str , data_running *run)
 {
-	std::vector <std::string>	line;
-
-	line = split_in_vector(str,' ');
-	std::cout << "Linea pa eliminar -> "<< str<< std::endl;
-	if (line.size() >= 2)
-	{
-		if (line[1] == "*" || line[1] == this->serv_data.host)
-		{
-			if (line.size() > 2)
-				this->msg_to_all(i, clients[i].getnick() + ":" + &str[find_single_word_on_str(line[2] , "MESSAGE")] + "\n", "");
-			this->close_fds_client(i, run);
-		}
-		else
-			this->send_message(this->fds[i].fd , "server : Cant disconnect from host "+this->serv_data.host+" beacuse of inapropiate host name -> "+line[1]+ "\n");
+	
+	// if (line[0] == "*" || line[0] == this->serv_data.host)
+	// {
+	// 		// if (line.size() > 2)
+	// 		// 	this->msg_to_all(i, clients[i].getnick() + ":" + &str[find_single_word_on_str(line[2] , "MESSAGE")] + "\n", "");
+	// 	this->close_fds_client(i, run);
+	// }
+	// else
+	// 	this->send_message(this->fds[i].fd , "server : Cant disconnect from host "+this->serv_data.host+" beacuse of inapropiate host name -> "+line[1]+ "\n");
 		
-	}
-	else
-		this->send_message(this->fds[i].fd,"Server :Error not enought args on disconnect\n");
+	
 }
 
 
@@ -204,15 +193,9 @@ void 	server::PONG	(int i , std::string str , data_running *run)
 {
 	(void)run;
 	std::vector <std::string> line = split_in_vector(str,' ');
-	int aux = find_single_word_on_str(str , "PING");
-	std::string msg ;
-
 	
-	if (line.size() >= 2)
-	{
-		msg = &str[aux + 5];
-		this->send_message(this->fds[i].fd , ":" +this->get_host()+ " PONG "+this->clients[i].getuserip()+" :"+msg+"\r\n");
-	}
+	if (line.size() >= 1)
+		this->send_message(this->fds[i].fd , ":" +this->get_host()+ " PONG "+this->clients[i].getuserip()+" :"+str+"\r\n");
 	else
 		this->send_message(this->fds[i].fd,ERR_NOORIGIN(this->get_host()));
 }
