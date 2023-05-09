@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   server_utilities.cpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 18:37:55 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/01 19:29:55 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/05/09 23:51:22 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.hpp"
+
+//NEED to test if this works
+void server::erase_client_from_channels(int id)
+{
+	std::set<std::string>::iterator siter;
+	std::set<std::string> cn = this->clients[id].getclientchannels();
+
+	for (siter = cn.begin(); siter != cn.end(); siter++)
+		this->channels[*siter].erase(this->clients[id].getusername_host());
+	// this->channels.find();
+	return;
+}
 
 int server::msg_to_all(int i, std::string str, std::string channel)
 {

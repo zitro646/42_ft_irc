@@ -39,21 +39,31 @@ client &client::operator=(const client &tmp)
   this->realname_host = tmp.realname_host;
   this->username_host = tmp.username_host;
   this->op = tmp.op;
+  this->client_channels = tmp.client_channels;
   // std::cout << "Operator Client equalizer called" << std::endl;
   return (*this);
 }
 
 std::ostream &operator<<(std::ostream& os, const client &tmp)
 {
+  std::set<std::string>::iterator it;
+	std::set<std::string> cn;
+	cn = tmp.getclientchannels();
 	os << "Client output" << std::endl;
 	os << "realname_host	|     " << tmp.getrealname_host() << std::endl;
 	os << "username_host	|     " << tmp.getusername_host() << std::endl;
 	os << "nickname	|     " << tmp.getnick() << std::endl;
+	os << "Channels count	|     " << cn.size() << std::endl;
+	os << "Channels |     ";
+  	for (it = cn.begin(); it != cn.end(); it++)
+      os << *it + " ";
+	os << std::endl;
 	return (os);
 }
 
 void client::clear_Client(void)
 {
+  this->client_channels.clear();
   this->nick = "";
   this->realname_host = "";
   this->username_host = "";

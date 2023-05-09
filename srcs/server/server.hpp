@@ -1,7 +1,7 @@
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
-#include <map>
+
 #include "../general/general.hpp"
 #include "../server_objects/objects.hpp"
 
@@ -39,6 +39,7 @@ class server
 		int		find_client_nick		(std::string str, data_running *run);
 		int 	find_client_username	(std::string str, data_running *run);
 		int		find_client_realname	(std::string str, data_running *run);
+		void	erase_client_from_channels(int id);
 		int		check_client_NICK_USER	(int i);
 		int		recv_message			(int fd, std::string &str);
 		int		send_message			(int fd, std::string str);

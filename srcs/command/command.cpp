@@ -6,7 +6,7 @@
 /*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 13:06:53 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/09 19:36:41 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/05/09 23:10:28 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,16 +108,19 @@ void server::MSG	(int i , std::string str , data_running *run)
 void server::JOIN	(int i , std::string str , data_running *run)
 {
 	(void)run;
-	std::vector <std::string>	line;
-	line = split_in_vector(str,' ');
+	std::set<std::string> 		client_channels;
+	std::vector <std::string>	line = split_in_vector(str,' ');
 	std::string channel = line[0].substr(0, line[1].size() - 1);
+
 	if (line.size() == 1)
 	{
 		if (this->channels.find(channel) == this->channels.end() || (this->channels[channel].find(clients[i].getusername_host()) == this->channels[channel].end()))
 		{
-			std::cout << channel << std::endl;
+			// std::cout << channel << std::endl;
 			this->channels[channel][this->clients[i].getusername_host()] = this->fds[i].fd;
-
+			client_channels = this->clients[i].getclientchannels();
+			client_channels.insert(channel);
+			this->clients[i].setclientchannels(client_channels);
 			std::string returnlist = ":" + this->get_host() + " 353 " + clients[i].getusername_host() + " = " + channel + " :"; //RPL_
 			std::map<std::string,int>::iterator iter;
 			for (iter = this->channels[channel].begin(); iter != this->channels[channel].end(); iter++)
@@ -135,7 +138,7 @@ void server::JOIN	(int i , std::string str , data_running *run)
 	}
 	else
 		this->send_message(this->fds[i].fd,"Server :Error trying to JOIN channel\n");
-
+	// std::cout << "Cliente nuevo status" << std::endl << this->clients[i];
 	return;
 }
 
@@ -146,12 +149,17 @@ void 	server::PART	(int i , std::string str , data_running *run)
 	(void)run;
 	std::vector <std::string>	line = split_in_vector(str,' ');
 	std::string channel = line[0].substr(0, line[1].size() - 1);
+	std::set<std::string> 		client_channels;
+	std::map<std::string,int>::iterator iter;
+	
 	if (line.size() >= 1)
 	{
 		
 		if (this->channels.find(channel) != this->channels.end() && (this->channels[channel].find(clients[i].getusername_host()) != this->channels[channel].end()))
 		{
-			std::map<std::string,int>::iterator iter;
+			client_channels = this->clients[i].getclientchannels();
+			client_channels.erase(channel);
+			this->clients[i].setclientchannels(client_channels);
             for (iter = this->channels[channel].begin(); iter != this->channels[channel].end(); iter++)
             {
                 this->send_message(iter->second, ":" + clients[i].getnick() + "!~" + clients[i].getusername_host() + " PART " + channel + "\n");
@@ -166,7 +174,7 @@ void 	server::PART	(int i , std::string str , data_running *run)
 	}
 	else
 		this->send_message(this->fds[i].fd,"Server :Error trying to PART channel\n");
-	
+	// std::cout << "Cliente nuevo status" << std::endl << this->clients[i];
 }
 
 void 	server::LIST	(int i , std::string str , data_running *run)

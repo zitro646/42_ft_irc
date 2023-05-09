@@ -44,6 +44,8 @@
 #include <sstream>
 #include <chrono>
 #include <ctime>
+#include <set>
+#include <map>
 
 
 //Struct para almacenar los datos del servidor

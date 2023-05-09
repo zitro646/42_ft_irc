@@ -10,6 +10,7 @@ class	client {
 		std::string username_host;
 		std::string nick;
 		std::string userip;
+		std::set<std::string> client_channels;
 		bool		op;
 	
 	public:
@@ -28,11 +29,12 @@ class	client {
 		/*###########################################
 		#				GETTERS						#
 		############################################*/
-		std::string getnick			(void)	const	{return(this->nick);};
-		std::string getrealname_host(void)	const 	{return(this->realname_host);};
-		std::string getusername_host(void)	const 	{return(this->username_host);};
-		std::string getuserip		(void)	const 	{return(this->userip);};
-		bool		getoperator		(void)	const 	{return(this->op);};
+		std::string 			getnick			(void)	const	{return(this->nick);};
+		std::string 			getrealname_host(void)	const 	{return(this->realname_host);};
+		std::string 			getusername_host(void)	const 	{return(this->username_host);};
+		std::string 			getuserip		(void)	const 	{return(this->userip);};
+		bool					getoperator		(void)	const 	{return(this->op);};
+		std::set<std::string> 	getclientchannels(void)	const 	{return(this->client_channels);};
 
 		/*###########################################
 		#				SETTERS						#
@@ -41,6 +43,7 @@ class	client {
 		void setrealname_host	(std::string str)	 	{this->realname_host = str;};
 		void setusername_host	(std::string str)	 	{this->username_host = str;};
 		void setuserip			(std::string str)	 	{this->userip = str;};
+		void setclientchannels	(std::set<std::string>c){this->client_channels = c;};
 		void setuseroperator	(bool		 o)	 		{this->op = o;};
 };
 
