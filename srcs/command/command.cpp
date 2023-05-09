@@ -6,7 +6,7 @@
 /*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 13:06:53 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/06 00:48:41 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/05/09 15:45:56 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,11 +169,30 @@ void 	server::PART	(int i , std::string str , data_running *run)
 	
 }
 
+void 	server::LIST	(int i , std::string str , data_running *run)
+{
+	(void)run;
+	(void)str;
+	std::vector <std::string>	line;
+	std::cout << "HOLA\n";
+	this->send_message(this->fds[i].fd, ":" + this->get_host() + " 321" + clients[i].getusername_host() + " Channel : Users Name\n");
+		std::map<std::string,std::map<std::string,int> >::iterator iter;
+		for (iter = this->channels.begin(); iter != this->channels.end(); iter++)
+		{
+			this->send_message(this->fds[i].fd, ":" + this->get_host() + " 322" + clients[i].getusername_host() + " " + iter->first + " " + std::to_string(iter->second.size()) + ":\n");
+			std::cout << + (int)iter->second.size();
+			std::cout << i << " " << iter->first << std::endl;
+		} 
+		this->send_message(this->fds[i].fd, ":" + this->get_host() + " 323 " + clients[i].getusername_host() + " " +  + " :End of /LIST list.\n"); //RPL_
+	return;
+}
 
 //ELIMINAR A LOS CANALES de los que pertenece al cliente y rehacer disconnect
 void 	server::DISCONNECT	(int i , std::string str , data_running *run)
 {
-	
+	(void)i;
+	(void)str;
+	(void)run;
 	// if (line[0] == "*" || line[0] == this->serv_data.host)
 	// {
 	// 		// if (line.size() > 2)

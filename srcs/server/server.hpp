@@ -60,7 +60,7 @@ class server
 		void 	DISCONNECT			(int i , std::string str , data_running *run);
 		void 	PART				(int i , std::string str , data_running *run);
 		void 	PONG				(int i , std::string str , data_running *run);
-		
+		void 	LIST				(int i , std::string str , data_running *run);
 
 	public:
 

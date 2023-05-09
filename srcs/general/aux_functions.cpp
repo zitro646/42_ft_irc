@@ -6,7 +6,7 @@
 /*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 13:33:58 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/04 07:54:09 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/05/09 15:40:49 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,16 +63,17 @@ std::string get_Time_now (void)
 
 bool    check_nickname_restrictions (std::string nick)
 {
-	// std::cout << "0 " << std::endl;
-    if (nick == "")
+	std::cout << "0 " << std::endl;
+    std::cout << nick << std::endl;
+    if (nick.empty())
         return (0);
-		// std::cout << "find last of " << nick.find_first_of(" ,*?!@.") << std::endl;
+	std::cout << "find last of " << nick.find_first_of(" ,*?!@.") << std::endl;
     if (nick.find_first_of(" ,*?!@.") <= nick.length())
         return (0);
-		// std::cout << "2 " << std::endl;
+	std::cout << "2 " << std::endl;
     if (nick[0] == '$' || nick[0] == ':')
     	return (0);
-		// std::cout << "3 " << std::endl;
+	std::cout << "3 " << std::endl;
     if (nick[0] == '&' || nick[0] == '#')
     	return (0);
 		// std::cout << "4 " << std::endl;
