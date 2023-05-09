@@ -6,7 +6,7 @@
 /*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 18:59:58 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/09 15:44:09 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/05/09 17:28:30 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,8 @@ void server::analize_msg (int i, std::string str , data_running *run)
 	(void) str;
 	(void) run;
 	std::vector <std::string>line = split_in_vector(str,'\n');
-	std::string cmd[8] = {"NICK","USER","PRIVMSG","JOIN","DISCONNECT","PART","PING", "LIST"};
-	server::funptr function[8] = {&server::NICK, &server::USERNAME, &server::MSG, &server::JOIN, &server::DISCONNECT,&server::PART, &server::PONG, &server::LIST};// &server::extract_JOIN,
+	std::string cmd[8] = {"NICK","USER","PRIVMSG","JOIN","QUIT","PART","PING", "LIST"};
+	server::funptr function[8] = {&server::NICK, &server::USERNAME, &server::MSG, &server::JOIN, &server::QUIT,&server::PART, &server::PONG, &server::LIST};// &server::extract_JOIN,
 	if (line.size() >= 1)
 	{
 		for (int y = 0; y < (int)line.size(); y++)
@@ -125,7 +125,7 @@ void server::analize_msg (int i, std::string str , data_running *run)
 			for (int x = 0; x < 8; x++)
 			{
 				
-				std::cout  << YELLOW << "Pos msg size " << line[y].size() << RESET << std::endl;
+				// std::cout  << YELLOW << "Pos msg size " << line[y].size() << RESET << std::endl;
 				if (find_single_word_on_str(line[y], cmd[x]) != -1)
 				{
 					if (line[y].length() == cmd[x].length())

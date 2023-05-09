@@ -7,7 +7,8 @@
 #define TIMEOUT_MS	10*1000*60 	//Tiempo de desconexion en caso de no recivir nada
 
 #define SERV_VERS	"0.01"
-
+#define NICK_LENGTH	9
+#define USER_LENGTH	9
 
 // Colores
 #define RESET   "\033[0m"
@@ -70,5 +71,6 @@ bool						check_data_correct(data_server data);
 bool						is_server_listening(data_server *serv_data, pollfd *fds);
 std::string 				get_Time_now			(void);
 bool    					check_nickname_restrictions (std::string nick);
+bool    					check_username_restrictions (std::string username);
 
 #endif

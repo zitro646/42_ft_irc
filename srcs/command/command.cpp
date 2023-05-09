@@ -6,7 +6,7 @@
 /*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 13:06:53 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/09 15:45:56 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/05/09 19:36:41 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,20 +55,20 @@ void server::USERNAME	(int client_id , std::string str , data_running *run)
 	std::vector <std::string>	line;
 	std::vector <std::string>	line2;
 
-	
+	// std::cout << "USERNAME :'" << str << "'"<< std::endl;
 	line = split_in_vector(str,' ');
 	line2 = split_in_vector(str,':');
-	if ( line.size() >= 5 && line2.size() == 2)
+	if ( line.size() >= 4 && line2.size() == 2)
 	{
 		line[1].erase(line[1].find_last_not_of(" \n\r\t")+1);
 		line2[1].erase(line2[1].find_last_not_of("\n\r\t")+1);
 
 		//Intentamos crear el user name
-		if (!this->find_client_username(line[1],run))
+		if (!this->find_client_username(line[0],run))
 		{
 			this->clients[client_id].setrealname_host(line2[1]);
-			this->clients[client_id].setusername_host(line[1]);
-			this->clients[client_id].setuserip(line[3]);
+			this->clients[client_id].setusername_host(line[0]);
+			this->clients[client_id].setuserip(line[2]);
 			this->send_message(this->fds[client_id].fd,RPL_WELCOME(this->get_host() , this->clients[client_id].getnick()));
             this->send_message(this->fds[client_id].fd,RPL_YOURHOST( this->get_host() , this->clients[client_id].getusername_host()));
             this->send_message(this->fds[client_id].fd,RPL_CREATED(this->get_host()));
@@ -175,34 +175,32 @@ void 	server::LIST	(int i , std::string str , data_running *run)
 	(void)str;
 	std::vector <std::string>	line;
 	std::cout << "HOLA\n";
-	this->send_message(this->fds[i].fd, ":" + this->get_host() + " 321" + clients[i].getusername_host() + " Channel : Users Name\n");
+	this->send_message(this->fds[i].fd, ":" + this->get_host() + " 321 " + clients[i].getusername_host() + " Channel : Users Name\n");
 		std::map<std::string,std::map<std::string,int> >::iterator iter;
 		for (iter = this->channels.begin(); iter != this->channels.end(); iter++)
 		{
-			this->send_message(this->fds[i].fd, ":" + this->get_host() + " 322" + clients[i].getusername_host() + " " + iter->first + " " + std::to_string(iter->second.size()) + ":\n");
+			this->send_message(this->fds[i].fd, ":" + this->get_host() + " 322 " + clients[i].getusername_host() + " " + iter->first + " " + std::to_string(iter->second.size()) + ":\n");
 			std::cout << + (int)iter->second.size();
 			std::cout << i << " " << iter->first << std::endl;
 		} 
-		this->send_message(this->fds[i].fd, ":" + this->get_host() + " 323 " + clients[i].getusername_host() + " " +  + " :End of /LIST list.\n"); //RPL_
+		this->send_message(this->fds[i].fd, ":" + this->get_host() + " 323 " + clients[i].getusername_host() + " :End of /LIST list.\n"); //RPL_
 	return;
 }
 
 //ELIMINAR A LOS CANALES de los que pertenece al cliente y rehacer disconnect
-void 	server::DISCONNECT	(int i , std::string str , data_running *run)
+void 	server::QUIT	(int i , std::string str , data_running *run)
 {
 	(void)i;
 	(void)str;
 	(void)run;
-	// if (line[0] == "*" || line[0] == this->serv_data.host)
-	// {
-	// 		// if (line.size() > 2)
-	// 		// 	this->msg_to_all(i, clients[i].getnick() + ":" + &str[find_single_word_on_str(line[2] , "MESSAGE")] + "\n", "");
-	// 	this->close_fds_client(i, run);
-	// }
-	// else
-	// 	this->send_message(this->fds[i].fd , "server : Cant disconnect from host "+this->serv_data.host+" beacuse of inapropiate host name -> "+line[1]+ "\n");
-		
 	
+	if (str != "")
+	{
+		std::cout << "Deberia de mandar un mensaje antes de salir"<<std::endl;
+		// this->msg_to_all(i, clients[i].getnick() + ":" + &str[find_single_word_on_str(line[2] , "MESSAGE")] + "\n", "");
+	}
+	this->close_fds_client(i, run);
+	return;
 }
 
 
@@ -217,4 +215,5 @@ void 	server::PONG	(int i , std::string str , data_running *run)
 		this->send_message(this->fds[i].fd , ":" +this->get_host()+ " PONG "+this->clients[i].getuserip()+" :"+str+"\r\n");
 	else
 		this->send_message(this->fds[i].fd,ERR_NOORIGIN(this->get_host()));
+	return;
 }
