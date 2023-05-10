@@ -49,6 +49,7 @@ class server
 		#			DEBUG    	FUNCTIONS			#
 		############################################*/
 		void fds_search_data(void) const;
+		void look_channels(void)const;
 
 		/*###########################################
 		#			COMMANDS    FUNCTIONS			#
