@@ -70,3 +70,14 @@ void client::clear_Client(void)
   this->op = false;
   return ;
 }
+
+void client::add_channel	(std::string str)
+{
+  this->client_channels.insert(str);
+  return;
+}
+
+void client::remove_channel	(std::string str)
+{
+  this->client_channels.erase(str);
+}

@@ -24,7 +24,9 @@ class	client {
 		/*###########################################
 		#				FUNCTIONS					#
 		############################################*/
-		void clear_Client (void);
+		void clear_Client	(void);
+		void add_channel	(std::string str);
+		void remove_channel	(std::string str);
 		
 		/*###########################################
 		#				GETTERS						#
@@ -43,7 +45,7 @@ class	client {
 		void setrealname_host	(std::string str)	 	{this->realname_host = str;};
 		void setusername_host	(std::string str)	 	{this->username_host = str;};
 		void setuserip			(std::string str)	 	{this->userip = str;};
-		void setclientchannels	(std::set<std::string>c){this->client_channels = c;};
+		// void setclientchannels	(std::set<std::string>c){this->client_channels = c;};
 		void setuseroperator	(bool		 o)	 		{this->op = o;};
 };
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server_utilities.cpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
+/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 18:37:55 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/10 23:23:11 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/05/11 19:59:11 by mortiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,14 @@ int server::msg_to_user(std::string str, std::string user)
 		}
 	}
 	return (1);
+}
+
+int		server::get_client_id_by_nick	(std::string nick, data_running *run)
+{
+    for (int i = 0;i < run->n_active_fds; i++)
+        if (this->clients[i].getnick() == nick)
+            return (i);
+    return (-1);
 }
 
 int server::find_client_nick(std::string str, data_running *run)

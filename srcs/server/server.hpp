@@ -39,8 +39,9 @@ class server
 		int		find_client_nick		(std::string str, data_running *run);
 		int 	find_client_username	(std::string str, data_running *run);
 		int		find_client_realname	(std::string str, data_running *run);
-		void	erase_client_from_channels(int id);
+		int		get_client_id_by_nick	(std::string nick, data_running *run);
 		int		check_client_NICK_USER	(int i);
+		void	erase_client_from_channels(int id);
 		int		recv_message			(int fd, std::string &str);
 		int		send_message			(int fd, std::string str);
 
