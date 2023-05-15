@@ -6,7 +6,7 @@
 /*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 18:59:58 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/15 17:43:26 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/05/15 20:01:32 by mortiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,22 +87,52 @@ void	server::search_fds(data_running *run)
 
 int server::recieve_data(data_running *run, int i)
 {
-	(void)run;
-	bool close_connection;
+	// (void)run;
+	// bool close_connection;
+	// int	result;
+	// std::string str;
+
+	// str = this->clients[i].gettempcommand(); 
+	// close_connection = false;
+	// result = this->recv_message(fds[i].fd, str);
+	// if (!result)//Comprobamos que recibimos el mensaje
+	// 	close_connection = true;
+	// else if (result == -1)
+	// {
+	// 	this->clients[i].settempcommand(str);
+	// 	std::cout << "Mensaje incompleto recibido '" << clients[i].gettempcommand() << "'" <<std::endl ;
+	// 	return(1);
+	// }
+	// this->clients[i].settempcommand("");
+
+
+	// if (!close_connection) //Procesamos el mensaje
+	// {
+	// 	//std::cout << "MSG from " << clients[i].getnick() << " : "<< str ;
+	// 	this->analize_msg(i, str, run);//Analizamos el mensaje y mostramos en el terminal los datos no procesados
+	// }
+	// else //Si paso algo raro cerramos el cliente
+	// {
+	// 	std::cout << "Un error inesperado cerro la conexion del cliente... " << std::endl;
+	// 	return (0);
+	// }
+	// return (1);
+
+	//_______
+
 	int	result;
 	std::string str;
 
-	close_connection = false;
+	str = this->clients[i].gettempcommand();
+
 	result = this->recv_message(fds[i].fd, str);
-	if (!result)//Comprobamos que recibimos el mensaje
-		close_connection = true;
-	else if (result == -1)
+	if (result == -1)
 	{
-		this->clients[i].settempcommand(this->clients[i].gettempcommand() + str);
+		this->clients[i].settempcommand(str);
 		return(1);
 	}
-	str = this->clients[i].gettempcommand() + str;
-	if (!close_connection) //Procesamos el mensaje
+	this->clients[i].settempcommand("");
+	if (result) //Procesamos el mensaje
 	{
 		//std::cout << "MSG from " << clients[i].getnick() << " : "<< str ;
 		this->analize_msg(i, str, run);//Analizamos el mensaje y mostramos en el terminal los datos no procesados

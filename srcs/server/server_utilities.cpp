@@ -6,7 +6,7 @@
 /*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 18:37:55 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/15 17:52:09 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/05/15 19:57:39 by mortiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,17 +152,22 @@ int server::recv_message(int fd , std::string &str)
 		std::cout << "Connection closed "<< std::endl;
 		return (0);;
 	}
-    str = std::string(buff,bytes);
+	std::cout << "Valor de str: " << str << std::endl;
+    str = str + std::string(buff,bytes);
 
-	if (str.find('\n',0) <  str.size())
-	{
-		std::cout << get_Time_now() << BLUE << "Message from fd(" << fd << "):"<< std::endl << str << RESET << std::endl;
-    	return (1);
-	}
-	else
-	{
-		return (-1);
-	}
+	if (!(str.find('\n',0) <  str.size()))
+	   	return (-1);
+	std::cout << get_Time_now() << BLUE << "Message from fd(" << fd << "):"<< std::endl << str << RESET << std::endl;
+	return (1);
+	// if (str.find('\n',0) <  str.size())
+	// {
+	// 	std::cout << get_Time_now() << BLUE << "Message from fd(" << fd << "):"<< std::endl << str << RESET << std::endl;
+    // 	return (1);
+	// }
+	// else
+	// {
+	// 	return (-1);
+	// }
 }
 
 int server::send_message(int fd, std::string str)
