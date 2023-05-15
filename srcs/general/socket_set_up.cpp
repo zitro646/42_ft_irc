@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server_set_up.cpp                                  :+:      :+:    :+:   */
+/*   socket_set_up.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 18:37:55 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/04/27 01:54:46 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/05/15 18:37:56 by mortiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 sock_in	init_socket_struct(std::string port, std::string host)
 {
+	(void)host;
 	sock_in	addr;
 // Init struct that the socket needs
 
@@ -22,7 +23,7 @@ sock_in	init_socket_struct(std::string port, std::string host)
 //  Convert our port to a network address (host to network)
 	addr.sin_port				= htons(atoi(port.c_str()));
 //  Our address as integer
-	addr.sin_addr.s_addr		= inet_addr(host.c_str());
+	addr.sin_addr.s_addr		= INADDR_ANY;//inet_addr(host.c_str());
 	return addr;
 }
 

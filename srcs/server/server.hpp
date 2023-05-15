@@ -12,6 +12,8 @@ class server
 
 	private:
 
+		// channel				c;
+		std::map<std::string, channel> c;
 		client				clients[N_CLIENTS];
 		pollfd				fds[N_CLIENTS];
 		data_server 		serv_data;

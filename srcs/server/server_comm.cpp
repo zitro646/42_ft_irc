@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server_comm.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
+/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 18:59:58 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/09 17:28:30 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/05/15 17:43:26 by mortiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,19 @@ int server::recieve_data(data_running *run, int i)
 {
 	(void)run;
 	bool close_connection;
+	int	result;
 	std::string str;
 
 	close_connection = false;
-	if (!this->recv_message(fds[i].fd, str))//Comprobamos que recibimos el mensaje
+	result = this->recv_message(fds[i].fd, str);
+	if (!result)//Comprobamos que recibimos el mensaje
 		close_connection = true;
-	
+	else if (result == -1)
+	{
+		this->clients[i].settempcommand(this->clients[i].gettempcommand() + str);
+		return(1);
+	}
+	str = this->clients[i].gettempcommand() + str;
 	if (!close_connection) //Procesamos el mensaje
 	{
 		//std::cout << "MSG from " << clients[i].getnick() << " : "<< str ;

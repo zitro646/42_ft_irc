@@ -27,7 +27,7 @@ TEST_PATH		= test
 
 SUBFILE1_SRC = server.cpp server_comm.cpp server_utilities.cpp manage_fds.cpp
 
-SUBFILE2_SRC = client.cpp
+SUBFILE2_SRC = client.cpp channel.cpp
 
 SUBFILE3_SRC = command.cpp
 

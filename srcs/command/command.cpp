@@ -6,7 +6,7 @@
 /*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 13:06:53 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/11 20:04:33 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/05/15 17:48:24 by mortiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void server::NICK	(int i , std::string nick , data_running *run)
 {	
 	if ( nick != "")
 	{
-		// std::cout << " Integridad del nick " << check_nickname_restrictions(nick) << std::endl;
+		std::cout << " Integridad del nick: " << nick << check_nickname_restrictions(nick) << std::endl;
 		if (check_nickname_restrictions(nick))
 		{
 			if (this->find_client_nick(nick,run))
@@ -90,31 +90,35 @@ void server::USERNAME	(int client_id , std::string str , data_running *run)
 // PRIVMSG #canal :hola
 void server::MSG	(int i , std::string str , data_running *run)
 {
-	(void)i;
-	std::string receptor = str.substr(0,str.find(":",0) - 1);
-	str = &str[str.find(":",0) + 1];
-	int client_id = this->get_client_id_by_nick(receptor, run);
-	
-	this->send_message(this->fds[client_id].fd,str);
-	
-	
 
+	(void)run;
+	// std::string receptor = str.substr(0,str.find(":",0) - 1);
+	// str = &str[str.find(":",0) + 1];
+	// int client_id = this->get_client_id_by_nick(receptor, run);
 	
-// 	int aux;
-// 	std::string channel;
+	// this->send_message(this->fds[client_id].fd,str);
 	
-// 	aux = find_single_word_on_str(str , "PRIVMSG");
-// 	channel = str.substr(8, str.find(" ", 8) - 8);
-// 	if (this->check_client_NICK_USER(i))
-// 	{
-// 		if (channel[0] == '#')
-// 			this->msg_to_all(this->fds[i].fd, ":" + clients[i].getnick() + "!~" + clients[i].getusername_host() + " " + &str[aux] + "\n", channel);
-// 		else
-// 			this->msg_to_user(":" + clients[i].getnick() + "!~" + clients[i].getusername_host() + " " + &str[aux] + "\n", channel);
-// 	}
-// 	else
-// 		this->send_message(this->fds[i].fd,"Server : Set up ur NICK/USER first before sending an MSG\n");
-//   return;
+	
+	//:prueba4242!~josuna-t@195.55.210.173 PRIVMSG #canalprueba42 :hola
+	
+	std::string channel;
+	
+	channel = str.substr(0, str.find(" ", 0));
+	std::cout << channel << " - " << str << "\n";
+	if (this->check_client_NICK_USER(i))
+	{
+		std::cout << "Cliente con datos\n";
+		if (channel[0] == '#')
+		{
+			std::cout << "Busca canal\n";
+			this->msg_to_all(this->fds[i].fd, ":" + clients[i].getnick() + "!~" + clients[i].getusername_host() + " PRIVMSG " + str + "\n", channel);
+		}
+		else
+			this->msg_to_user(":" + clients[i].getnick() + "!~" + clients[i].getusername_host() + " PRIVMSG " + str + "\n", channel);
+	}
+	else
+		this->send_message(this->fds[i].fd,"Server : Set up ur NICK/USER first before sending an MSG\n");
+  return;
 }
 
 void server::JOIN	(int i , std::string str , data_running *run)

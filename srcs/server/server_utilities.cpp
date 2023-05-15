@@ -6,7 +6,7 @@
 /*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 18:37:55 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/11 19:59:11 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/05/15 17:52:09 by mortiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int server::msg_to_all(int i, std::string str, std::string channel)
 	std::map<std::string,int>::iterator iter;
 	for (iter = this->channels[channel].begin(); iter != this->channels[channel].end(); iter++)
 	{
+		std::cout << "entra aqui\n";
 		if (iter->second != i)
 		{
 			std::cout << iter->first << iter->second << std::endl;
@@ -152,8 +153,16 @@ int server::recv_message(int fd , std::string &str)
 		return (0);;
 	}
     str = std::string(buff,bytes);
-	std::cout << get_Time_now() << BLUE << "Message from fd(" << fd << "):"<< std::endl << str << RESET << std::endl;
-    return (1);
+
+	if (str.find('\n',0) <  str.size())
+	{
+		std::cout << get_Time_now() << BLUE << "Message from fd(" << fd << "):"<< std::endl << str << RESET << std::endl;
+    	return (1);
+	}
+	else
+	{
+		return (-1);
+	}
 }
 
 int server::send_message(int fd, std::string str)
