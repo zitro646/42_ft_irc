@@ -11,7 +11,7 @@ RESET 	= "\033[1;0m"
 NAME 		= ircserv
 CC 			= c++
 INCLUDE 	= -std=c++98
-CXXFLAGS 	= -Wall -Wextra -Werror
+CXXFLAGS 	= -Wall -Wextra -Werror #-fsanitize=address
 
 # PATHs #
 #
@@ -29,7 +29,7 @@ SUBFILE1_SRC = server.cpp server_comm.cpp server_utilities.cpp manage_fds.cpp
 
 SUBFILE2_SRC = client.cpp channel.cpp
 
-SUBFILE3_SRC = command.cpp
+SUBFILE3_SRC = join.cpp list.cpp msg.cpp nick.cpp part.cpp pong.cpp quit.cpp user.cpp
 
 SUBFILE4_SRC = aux_functions.cpp check_input_data.cpp socket_set_up.cpp
 

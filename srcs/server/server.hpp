@@ -12,8 +12,7 @@ class server
 
 	private:
 
-		// channel				c;
-		std::map<std::string, channel> c;
+		// std::map<std::string, channel> cha;
 		client				clients[N_CLIENTS];
 		pollfd				fds[N_CLIENTS];
 		data_server 		serv_data;
@@ -53,6 +52,7 @@ class server
 		############################################*/
 		void fds_search_data(void) const;
 		void look_channels(void)const;
+		// void look_cha(void)const;
 
 		/*###########################################
 		#			COMMANDS    FUNCTIONS			#

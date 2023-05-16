@@ -6,7 +6,7 @@
 /*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 18:37:55 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/15 19:57:39 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/05/16 20:09:36 by mortiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,22 @@ void server::look_channels(void) const
 
 	
 }
+
+
+// void server::look_cha(void) const
+// {
+// 	std::map<std::string, channel>::const_iterator iter;
+// 	std::cout << "Canales en general " << std::endl;
+// 	// iter = this->cha.begin();
+// 	for (iter = this->cha.begin(); iter != this->cha.end(); iter++)
+// 	{
+// 		std::cout << "Canal : "<< iter->first << std::endl;
+// 		std::cout << iter->second << std::endl;
+// 		std::cout << "- - - - - - - - -" << std::endl;
+// 	}
+
+	
+// }
 
 //NEED to test if this works
 void server::erase_client_from_channels(int id)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_fds.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
+/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 03:00:06 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/10 23:47:01 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/05/16 20:09:57 by mortiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

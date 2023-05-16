@@ -58,6 +58,7 @@ class	channel {
 
 	private:
 		std::map<std::string, int> client_list;
+		std::string					topic;
 	public:
 
 		channel ( void );
@@ -69,9 +70,20 @@ class	channel {
 	/*###########################################
 	#				OPERATIONS					#
 	############################################*/
-	std::map<std::string,int>::iterator	find_client	(std::string str)	{return(this->client_list.find(str));};
-	void	add_client	(std::string str , int fd);
+	void									add_client		(std::string str , int fd);
+	void									remove_client	(std::string str);
+	std::map<std::string, int>::iterator	find_client	(std::string str);
 
+	/*###########################################
+	#				GETTER						#
+	############################################*/
+	std::string 				gettopic		(void)	const	{return(this->topic);};
+	std::map<std::string, int>	getclientlist	(void)	const	{return(this->client_list);};
+	
+	/*###########################################
+	#				SETTER						#
+	############################################*/
+	void settopic (std::string str)	{this->topic = str;};
 };
 
 std::ostream &operator<<(std::ostream& os, const channel &tmp);

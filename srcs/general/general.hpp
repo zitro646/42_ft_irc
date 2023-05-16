@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   general.hpp                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/16 17:05:27 by mortiz-d          #+#    #+#             */
+/*   Updated: 2023/05/16 17:09:11 by mortiz-d         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef GENERAL_HPP
 #define GENERAL_HPP
 
@@ -20,17 +32,6 @@
 #define MAGENTA "\033[35m"      /* Magenta */
 #define CYAN    "\033[36m"      /* Cyan */
 #define WHITE   "\033[37m"      /* White */
-
-
-//Comands names 
-// #define NICKNAME	"NICK"
-// #define MESSAGE		"PRIVMSG"
-// #define USERNAME	"USER"
-// #define JOIN		"JOIN"
-// #define DISCONNECT	"DISCONNECT"
-// #define PART		"PART"
-// #define PING		"PING"
-
 
 #include <poll.h>
 #include <string>
