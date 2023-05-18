@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server_utilities.cpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 18:37:55 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/16 20:09:36 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/05/19 00:20:33 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,18 @@ void server::look_channels(void) const
 }
 
 
-// void server::look_cha(void) const
-// {
-// 	std::map<std::string, channel>::const_iterator iter;
-// 	std::cout << "Canales en general " << std::endl;
-// 	// iter = this->cha.begin();
-// 	for (iter = this->cha.begin(); iter != this->cha.end(); iter++)
-// 	{
-// 		std::cout << "Canal : "<< iter->first << std::endl;
-// 		std::cout << iter->second << std::endl;
-// 		std::cout << "- - - - - - - - -" << std::endl;
-// 	}
-
-	
-// }
+void server::look_cha(void) const
+{
+	std::map<std::string, channel>::const_iterator iter;
+	std::cout << "Canales en general " << std::endl;
+	// iter = this->cha.begin();
+	for (iter = this->cha.begin(); iter != this->cha.end(); iter++)
+	{
+		std::cout << "Canal : "<< iter->first << std::endl;
+		std::cout << iter->second << std::endl;
+		std::cout << "- - - - - - - - -" << std::endl;
+	}
+}
 
 //NEED to test if this works
 void server::erase_client_from_channels(int id)
@@ -55,7 +53,13 @@ void server::erase_client_from_channels(int id)
 	std::set<std::string> cn = this->clients[id].getclientchannels();
 
 	for (siter = cn.begin(); siter != cn.end(); siter++)
-		this->channels[*siter].erase(this->clients[id].getusername_host());
+	{
+		// std::cout << "Eliminamos del canal "<< *siter<< " a " << this->clients[id].getusername_host();
+		this->cha[*siter].remove_client(this->clients[id].getusername_host());
+		if (this->cha[*siter].getclientlist().size() == 0)
+			this->cha.erase(*siter);
+		//this->channels[*siter].erase(this->clients[id].getusername_host());
+	}
 	// this->channels.find();
 	return;
 }
@@ -64,8 +68,8 @@ int server::msg_to_all(int i, std::string str, std::string channel)
 {
 	(void) i;
 	(void) str;
-	std::map<std::string,int>::iterator iter;
-	for (iter = this->channels[channel].begin(); iter != this->channels[channel].end(); iter++)
+	std::map<std::string,int> cn = this->cha[channel].getclientlist();
+	for (std::map<std::string,int>::iterator iter = cn.begin(); iter != cn.end(); iter++)
 	{
 		std::cout << "entra aqui\n";
 		if (iter->second != i)
@@ -138,17 +142,6 @@ int server::find_client_realname(std::string str, data_running *run)
         if (this->clients[i].getrealname_host() == str)
             return (1);
     return (0);
-}
-
-int server::check_client_NICK_USER(int i)
-{
-    if (this->clients[i].getnick() == "")
-        return (0);
-    if (this->clients[i].getrealname_host() == "")
-        return (0);
-    if (this->clients[i].getusername_host() == "")
-        return (0);
-    return (1);
 }
 
 int server::recv_message(int fd , std::string &str)

@@ -73,6 +73,13 @@ void client::clear_Client(void)
   return ;
 }
 
+bool client::check_Client_full_data	(void)
+{
+  if (this->nick == "" || this->realname_host == "" || this->username_host == "")
+    return (0);
+  return (1);
+}
+
 void client::add_channel	(std::string str)
 {
   this->client_channels.insert(str);

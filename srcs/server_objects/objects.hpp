@@ -25,9 +25,10 @@ class	client {
 		/*###########################################
 		#				FUNCTIONS					#
 		############################################*/
-		void clear_Client	(void);
-		void add_channel	(std::string str);
-		void remove_channel	(std::string str);
+		void clear_Client			(void);
+		bool check_Client_full_data	(void);
+		void add_channel			(std::string str);
+		void remove_channel			(std::string str);
 		
 		/*###########################################
 		#				GETTERS						#
@@ -72,7 +73,8 @@ class	channel {
 	############################################*/
 	void									add_client		(std::string str , int fd);
 	void									remove_client	(std::string str);
-	std::map<std::string, int>::iterator	find_client	(std::string str);
+	std::map<std::string, int>::iterator	find_client		(std::string str);
+	bool									is_client_in_list(std::string str);
 
 	/*###########################################
 	#				GETTER						#

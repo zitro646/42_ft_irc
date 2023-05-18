@@ -12,7 +12,7 @@ class server
 
 	private:
 
-		// std::map<std::string, channel> cha;
+		std::map<std::string, channel> cha;
 		client				clients[N_CLIENTS];
 		pollfd				fds[N_CLIENTS];
 		data_server 		serv_data;
@@ -41,7 +41,6 @@ class server
 		int 	find_client_username	(std::string str, data_running *run);
 		int		find_client_realname	(std::string str, data_running *run);
 		int		get_client_id_by_nick	(std::string nick, data_running *run);
-		int		check_client_NICK_USER	(int i);
 		void	erase_client_from_channels(int id);
 		int		recv_message			(int fd, std::string &str);
 		int		send_message			(int fd, std::string str);
@@ -52,7 +51,7 @@ class server
 		############################################*/
 		void fds_search_data(void) const;
 		void look_channels(void)const;
-		// void look_cha(void)const;
+		void look_cha(void)const;
 
 		/*###########################################
 		#			COMMANDS    FUNCTIONS			#

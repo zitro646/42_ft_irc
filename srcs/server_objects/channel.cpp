@@ -73,3 +73,8 @@ std::map<std::string, int>::iterator	channel::find_client	(std::string str)
 {
   return (this->client_list.find(str));
 }
+
+bool	channel::is_client_in_list(std::string str)
+{
+  return ((this->client_list.find(str) != this->client_list.end()));
+}

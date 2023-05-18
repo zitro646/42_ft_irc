@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_fds.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 03:00:06 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/16 20:09:57 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/05/18 20:24:14 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ int	server::accept_client(data_running *run)
 
 int	server::close_fds_client(int i, data_running *run)
 {	
-	this->look_channels();
+	this->look_cha();
 	this->erase_client_from_channels(i);
 	std::cout << YELLOW << "- - - - - - - - -" << std::endl;
-	this->look_channels();
+	this->look_cha();
 	std::cout << WHITE << "- - - - - - - - -" << std::endl;
 	close(this->fds[i].fd);
 	this->fds[i].fd = -1;
