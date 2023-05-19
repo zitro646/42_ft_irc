@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   nick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:54:55 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/16 17:09:43 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/05/19 17:31:31 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,18 @@ void server::NICK	(int i , std::string nick , data_running *run)
 			if (this->find_client_nick(nick,run))
 				this->send_message(this->fds[i].fd,ERR_NICKNAMEINUSE(this->get_host(),nick)); //ERR_NICKNAMEINUSE
 			else
+			{
 				this->clients[i].setnick(nick);
+				//Modificamos el nick en los canales en los que este
+				std::set<std::string>::iterator siter;
+				std::set<std::string> cn = this->clients[i].getclientchannels();
+				for (siter = cn.begin(); siter != cn.end(); siter++)
+				{
+					this->cha[*siter].remove_client(this->clients[i].getusername_host());
+					if (this->clients[i].getusername_host() != "")
+						this->cha[*siter].modify_nick(this->clients[i].getusername_host(),nick);
+				}
+			}	
 		}
 		else
 			this->send_message(this->fds[i].fd,ERR_ERRONEUSNICKNAME(this->get_host())); //ERR_ERRONEUSNICKNAME

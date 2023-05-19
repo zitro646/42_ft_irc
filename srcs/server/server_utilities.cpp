@@ -6,7 +6,7 @@
 /*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 18:37:55 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/19 00:20:33 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/05/19 17:33:17 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,14 @@ int server::msg_to_all(int i, std::string str, std::string channel)
 {
 	(void) i;
 	(void) str;
-	std::map<std::string,int> cn = this->cha[channel].getclientlist();
-	for (std::map<std::string,int>::iterator iter = cn.begin(); iter != cn.end(); iter++)
+	std::map<std::string, data_client> cn = this->cha[channel].getclientlist();
+	for (std::map<std::string, data_client>::iterator iter = cn.begin(); iter != cn.end(); iter++)
 	{
 		std::cout << "entra aqui\n";
-		if (iter->second != i)
+		if (iter->second.fd != i)
 		{
-			std::cout << iter->first << iter->second << std::endl;
-			this->send_message(iter->second,str);
+			std::cout << iter->first << iter->second.fd << std::endl;
+			this->send_message(iter->second.fd,str);
 		}
 	} 
 	std::cout << str << std::endl;

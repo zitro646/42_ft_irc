@@ -6,7 +6,7 @@
 /*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 17:05:27 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/19 00:44:47 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/05/19 16:23:46 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,14 @@ typedef struct data_running {
 	int			poll_result;
 	int			new_sd;
 	int			n_active_fds;
-} data_running; 
+} data_running;
+
+//Struct para almacenar los datos de un cliente en un canal
+typedef struct client_info {            
+	std::string nick;
+	int			fd;
+	bool		op;
+} data_client; 
 
 //Funciones que cualquiera puede usar
 std::vector<std::string> 	split_in_vector(std::string str, char c);

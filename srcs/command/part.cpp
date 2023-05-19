@@ -6,7 +6,7 @@
 /*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:57:51 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/18 19:48:44 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/05/19 16:38:11 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void 	server::PART	(int i , std::string str , data_running *run)
 	{
 		this->clients[i].remove_channel(channel);
 		
-		std::map<std::string,int> cn = this->cha[channel].getclientlist();
-		for (std::map<std::string,int>::iterator iter = cn.begin(); iter != cn.end(); iter++)
-            this->send_message(iter->second, ":" + clients[i].getnick() + "!~" + clients[i].getusername_host() + " PART " + channel + "\n");
+		std::map<std::string,data_client> cn = this->cha[channel].getclientlist();
+		for (std::map<std::string,data_client>::iterator iter = cn.begin(); iter != cn.end(); iter++)
+            this->send_message(iter->second.fd, ":" + clients[i].getnick() + "!~" + clients[i].getusername_host() + " PART " + channel + "\n");
 		
 		this->cha[channel].remove_client(clients[i].getusername_host());
 		if (this->cha[channel].getclientlist().size() == 0)

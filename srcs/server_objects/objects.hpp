@@ -12,7 +12,6 @@ class	client {
 		std::string userip;
 		std::string tempcommand;
 		std::set<std::string> client_channels;
-		bool		op;
 	
 	public:
 
@@ -38,7 +37,6 @@ class	client {
 		std::string 			getusername_host(void)	const 	{return(this->username_host);};
 		std::string 			getuserip		(void)	const 	{return(this->userip);};
 		std::string 			gettempcommand	(void)	const 	{return(this->tempcommand);};
-		bool					getoperator		(void)	const 	{return(this->op);};
 		std::set<std::string> 	getclientchannels(void)	const 	{return(this->client_channels);};
 
 		/*###########################################
@@ -49,8 +47,6 @@ class	client {
 		void setusername_host	(std::string str)	 	{this->username_host = str;};
 		void setuserip			(std::string str)	 	{this->userip = str;};
 		void settempcommand		(std::string str)	 	{this->tempcommand = str;};
-		// void setclientchannels	(std::set<std::string>c){this->client_channels = c;};
-		void setuseroperator	(bool		 o)	 		{this->op = o;};
 };
 
 std::ostream &operator<<(std::ostream& os, const client &tmp);
@@ -58,7 +54,7 @@ std::ostream &operator<<(std::ostream& os, const client &tmp);
 class	channel {
 
 	private:
-		std::map<std::string, int> client_list;
+		std::map<std::string, data_client> client_list;
 		std::string					topic;
 	public:
 
@@ -71,16 +67,17 @@ class	channel {
 	/*###########################################
 	#				OPERATIONS					#
 	############################################*/
-	void									add_client		(std::string str , int fd);
-	void									remove_client	(std::string str);
-	std::map<std::string, int>::iterator	find_client		(std::string str);
-	bool									is_client_in_list(std::string str);
+	void											add_client		(std::string str , int fd , std::string nick , bool op);
+	void											remove_client	(std::string str);
+	void											modify_nick		(std::string usr , std::string nick);
+	std::map<std::string, data_client>::iterator	find_client		(std::string str);
+	bool											is_client_in_list(std::string str);
 
 	/*###########################################
 	#				GETTER						#
 	############################################*/
 	std::string 				gettopic		(void)	const	{return(this->topic);};
-	std::map<std::string, int>	getclientlist	(void)	const	{return(this->client_list);};
+	std::map<std::string, data_client>	getclientlist	(void)	const	{return(this->client_list);};
 	
 	/*###########################################
 	#				SETTER						#

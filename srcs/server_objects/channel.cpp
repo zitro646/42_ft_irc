@@ -14,7 +14,7 @@
 
 channel::channel( void ) : topic("")
 {
-  std::map<std::string, int> c;
+  std::map<std::string, data_client> c;
 
   client_list = c;
   return ;
@@ -46,20 +46,25 @@ channel &channel::operator=(const channel &tmp)
 
 std::ostream &operator<<(std::ostream& os, const channel &tmp)
 {
-  std::map<std::string, int>::iterator mi_iter;
-	std::map<std::string, int> cn = tmp.getclientlist();
+  std::map<std::string, data_client>::iterator mi_iter;
+	std::map<std::string, data_client> cn = tmp.getclientlist();
 
 	os << "Topic " << tmp.gettopic() << std::endl;
   for (mi_iter = cn.begin(); mi_iter != cn.end(); mi_iter++)
 		{
-			os << "username: '" << mi_iter->first << "' | fd :" << mi_iter->second << std::endl;
+			os << "username: '" << mi_iter->first << "' | fd :" << mi_iter->second.fd << "' | nick :" << mi_iter->second.nick <<std::endl;
 		}
 	return (os);
 }
 
-void	channel::add_client	(std::string str , int fd) 
+void channel::add_client(std::string str, int fd, std::string nick, bool op) 
 {
-  this->client_list[str] = fd;
+  data_client client;
+  client.nick = nick;
+  client.fd = fd;
+  client.op = op;
+
+  this->client_list[str] = client;
   return;
 }
 
@@ -69,7 +74,7 @@ void	channel::remove_client	(std::string str)
   return;
 }
 
-std::map<std::string, int>::iterator	channel::find_client	(std::string str)
+std::map<std::string, data_client>::iterator	channel::find_client	(std::string str)
 {
   return (this->client_list.find(str));
 }
@@ -77,4 +82,10 @@ std::map<std::string, int>::iterator	channel::find_client	(std::string str)
 bool	channel::is_client_in_list(std::string str)
 {
   return ((this->client_list.find(str) != this->client_list.end()));
+}
+
+void	channel::modify_nick	(std::string usr , std::string nick)
+{
+  this->client_list[usr].nick = nick;
+  return;
 }
