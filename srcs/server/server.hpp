@@ -61,10 +61,13 @@ class server
 		void	USERNAME			(int i , std::string str , data_running *run);
 		void	NICK				(int i , std::string str , data_running *run);
 		void	JOIN				(int i , std::string str , data_running *run);
-		void 	QUIT			(int i , std::string str , data_running *run);
+		void 	QUIT				(int i , std::string str , data_running *run);
 		void 	PART				(int i , std::string str , data_running *run);
 		void 	PONG				(int i , std::string str , data_running *run);
 		void 	LIST				(int i , std::string str , data_running *run);
+		void 	OPER				(int i , std::string str , data_running *run);
+		void 	KILL				(int i , std::string str , data_running *run);
+		void 	TOPIC				(int i , std::string str , data_running *run);
 
 	public:
 

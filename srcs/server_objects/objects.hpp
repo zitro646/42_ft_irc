@@ -12,6 +12,7 @@ class	client {
 		std::string userip;
 		std::string tempcommand;
 		std::set<std::string> client_channels;
+		bool	op;
 	
 	public:
 
@@ -38,6 +39,7 @@ class	client {
 		std::string 			getuserip		(void)	const 	{return(this->userip);};
 		std::string 			gettempcommand	(void)	const 	{return(this->tempcommand);};
 		std::set<std::string> 	getclientchannels(void)	const 	{return(this->client_channels);};
+		bool					getop			(void)	const 	{return(this->op);};
 
 		/*###########################################
 		#				SETTERS						#
@@ -47,6 +49,7 @@ class	client {
 		void setusername_host	(std::string str)	 	{this->username_host = str;};
 		void setuserip			(std::string str)	 	{this->userip = str;};
 		void settempcommand		(std::string str)	 	{this->tempcommand = str;};
+		void setop				(bool	status)	 		{this->op = status;};
 };
 
 std::ostream &operator<<(std::ostream& os, const client &tmp);
@@ -54,6 +57,7 @@ std::ostream &operator<<(std::ostream& os, const client &tmp);
 class	channel {
 
 	private:
+		std::set<std::string> chanel_operators;
 		std::map<std::string, data_client> client_list;
 		std::string					topic;
 	public:

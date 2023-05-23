@@ -6,7 +6,7 @@
 /*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 18:59:58 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/19 00:02:50 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/05/23 22:41:25 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,15 +121,15 @@ void server::analize_msg (int i, std::string str , data_running *run)
 	std::vector <std::string>line = split_in_vector(str,'\n');
 	// std::string cmd[8] = {"NICK","USER","PRIVMSG","JOIN","QUIT","PART","PING", "LIST"};
 	// server::funptr function[8] = {&server::NICK, &server::USERNAME, &server::MSG, &server::JOIN, &server::QUIT,&server::PART, &server::PONG, &server::LIST};// &server::extract_JOIN,
-	std::string cmd[8] = {"NICK","USER","JOIN","PING","PART","LIST","QUIT","PRIVMSG"};
-	server::funptr function[8] = {&server::NICK, &server::USERNAME, &server::JOIN, &server::PONG,&server::PART,&server::LIST, &server::QUIT,&server::MSG};// &server::extract_JOIN,
+	std::string cmd[11] = {"NICK","USER","JOIN","PING","PART","LIST","QUIT","PRIVMSG","OPER","KILL","TOPIC"};
+	server::funptr function[11] = {&server::NICK, &server::USERNAME, &server::JOIN, &server::PONG,&server::PART,&server::LIST, &server::QUIT,&server::MSG,&server::OPER,&server::KILL,&server::TOPIC};// &server::extract_JOIN,
 
 	
 	if (line.size() >= 1)
 	{
 		for (int y = 0; y < (int)line.size(); y++)
 		{
-			for (int x = 0; x < 8; x++)
+			for (int x = 0; x < 11; x++)
 			{
 				
 				// std::cout  << YELLOW << "Pos msg size " << line[y].size() << RESET << std::endl;
