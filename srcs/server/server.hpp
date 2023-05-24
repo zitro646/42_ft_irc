@@ -29,8 +29,9 @@ class server
 		void	search_fds		(data_running *run);
 		int		accept_client	(data_running *run);
 		int		recieve_data	(data_running *run, int i);
-		int		msg_to_all  	(int i, std::string str, std::string channel);
-		int		msg_to_user  	(std::string str, std::string user);
+		int 	msg_to_all		(int fd, std::string str, data_running *run);
+		int		msg_to_channel  (int i, std::string str, std::string channel);
+		int		msg_to_user  	(std::string str, std::string user_nick);
 		int		close_fds_client(int i, data_running *run);
 		void	analize_msg		(int i , std::string str , data_running *run);
 
@@ -68,6 +69,7 @@ class server
 		void 	OPER				(int i , std::string str , data_running *run);
 		void 	KILL				(int i , std::string str , data_running *run);
 		void 	TOPIC				(int i , std::string str , data_running *run);
+		void 	NOTICE				(int i , std::string str , data_running *run);
 
 	public:
 

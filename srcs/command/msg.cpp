@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msg.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
+/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:56:51 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/19 00:18:25 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/05/24 19:56:50 by mortiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void server::MSG	(int i , std::string str , data_running *run)
 		if (channel[0] == '#' && this->cha.find(channel) != this->cha.end())
 		{
 			std::cout << "Busca canal\n";
-			this->msg_to_all(this->fds[i].fd, ":" + clients[i].getnick() + "!~" + clients[i].getusername_host() + " PRIVMSG " + str + "\n", channel);
+			this->msg_to_channel(this->fds[i].fd, ":" + clients[i].getnick() + "!~" + clients[i].getusername_host() + " PRIVMSG " + str + "\n", channel);
 		}
 		else
 			this->msg_to_user(":" + clients[i].getnick() + "!~" + clients[i].getusername_host() + " PRIVMSG " + str + "\n", channel);

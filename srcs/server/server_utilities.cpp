@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server_utilities.cpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
+/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 18:37:55 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/19 17:33:17 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/05/24 19:22:42 by mortiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,46 +64,37 @@ void server::erase_client_from_channels(int id)
 	return;
 }
 
-int server::msg_to_all(int i, std::string str, std::string channel)
+int server::msg_to_all(int fd, std::string str, data_running *run)
+{
+	// (void) i;
+	(void) str;
+	for (int x = 0;x < run->n_active_fds; x++)
+        if (this->fds[x].fd != fd)
+            this->send_message(this->fds[x].fd,str);
+	return (1);
+}
+
+int server::msg_to_channel(int i, std::string str, std::string channel)
 {
 	(void) i;
 	(void) str;
 	std::map<std::string, data_client> cn = this->cha[channel].getclientlist();
 	for (std::map<std::string, data_client>::iterator iter = cn.begin(); iter != cn.end(); iter++)
 	{
-		std::cout << "entra aqui\n";
 		if (iter->second.fd != i)
 		{
 			std::cout << iter->first << iter->second.fd << std::endl;
 			this->send_message(iter->second.fd,str);
 		}
 	} 
-	std::cout << str << std::endl;
-
-
-	// int aux;
-
-	// for (int j = 0; j < N_CLIENTS; j++)
-	// {
-	// 	if (j == i)
-	// 		continue;
-	// 	if (j == this->listening_socket)
-	// 		break;
-	// 	if (this->clients[i].getchannel_title() == this->clients[j].getchannel_title())
-	// 	{
-	// 		aux = this->send_message(fds[j].fd, str);
-	// 		if (!aux)
-	// 			return (0);
-	// 	}
-	// }
 	return (1);
 }
 
-int server::msg_to_user(std::string str, std::string user)
+int server::msg_to_user(std::string str, std::string user_nick)
 {
 	for (int a = 0; a < N_CLIENTS; a++)
 	{
-		if (this->clients[a].getnick() == user)
+		if (this->clients[a].getnick() == user_nick)
 		{
 			this->send_message(this->fds[a].fd, str);
 			return (0);
