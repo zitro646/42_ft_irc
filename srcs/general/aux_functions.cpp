@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux_functions.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
+/*   By: josuna-t <josuna-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 13:33:58 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/09 19:20:37 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/05/26 19:05:25 by josuna-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,14 @@ bool    check_username_restrictions (std::string username)
     // if (username[0] == '&' || username[0] == '#')
     // 	return (0);
     return (1);
+}
+
+std::string check_name(data_client data)
+{
+    if (data.op == 1)
+        return('@' + data.nick);
+    else if (data.op == 2)
+        return ('+' + data.nick);
+    else 
+        return (data.nick);
 }

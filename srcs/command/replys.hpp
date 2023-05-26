@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   replys.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: josuna-t <josuna-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 17:05:43 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/24 17:55:21 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/05/26 18:27:23 by josuna-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@
 #define RPL_CREATED(ip_server) ":" + ip_server + " 003 : This server was created <datetime>\r\n"
 #define RPL_MYINFO(ip_server) ":" + ip_server + " 004 : <client> <servername> <version> <available user modes> <available channel modes> <channel modes with a parameter>\r\n"
 
-#define RPL_LISTSTART(ip_server, username)	":" + ip_server + " 321 "+ username + " Channel : Users Name\r\n"
-#define RPL_LIST(ip_server, username , canal, count , topic)	":" + ip_server + " 322 " + username + " " + canal + " " + count + ":" + topic + "\r\n"
-#define RPL_LISTEND(ip_server, username)	":" + ip_server + " 323 "+ username + " :End of /LIST list.\n"
+#define RPL_LISTSTART(ip_server, nick)	":" + ip_server + " 321 "+ nick + " Channel :Users  Name\r\n"
+#define RPL_LIST(ip_server, nick , canal, count , topic)	":" + ip_server + " 322 " + nick + " " + canal + " " + count + " :" + topic + "\r\n"
+#define RPL_LISTEND(ip_server, nick)	":" + ip_server + " 323 "+ nick + " :End of /LIST\r\n"
 
 #define RPL_NOTOPIC(ip_server , canal)	":" + ip_server + " 331 " + canal + " : No topic is set\r\n"
-#define RPL_TOPIC(ip_server , canal, topic)	":" + ip_server + " 332 " + canal + " :"+topic+"\r\n"
+#define RPL_TOPIC(ip_server , canal, topic)	":" + ip_server + " TOPIC " + canal + " :" + topic + "\r\n"
 
 #define RPL_YOUREOPER(ip_server)	":" + ip_server + " 381 : You are now an IRC operator\r\n"
 

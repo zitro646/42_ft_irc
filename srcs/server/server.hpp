@@ -70,6 +70,7 @@ class server
 		void 	KILL				(int i , std::string str , data_running *run);
 		void 	TOPIC				(int i , std::string str , data_running *run);
 		void 	NOTICE				(int i , std::string str , data_running *run);
+		void	NAMES				(int i , std::string str , data_running *run);
 
 	public:
 

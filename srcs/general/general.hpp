@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   general.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
+/*   By: josuna-t <josuna-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 17:05:27 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/19 16:23:46 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/05/26 19:05:50 by josuna-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ typedef struct data_running {
 typedef struct client_info {            
 	std::string nick;
 	int			fd;
-	bool		op;
+	int			op;
 } data_client; 
 
 //Funciones que cualquiera puede usar
@@ -82,5 +82,5 @@ bool						is_server_listening(data_server *serv_data, pollfd *fds);
 std::string 				get_Time_now			(void);
 bool    					check_nickname_restrictions (std::string nick);
 bool    					check_username_restrictions (std::string username);
-
+std::string 				check_name(data_client data);
 #endif

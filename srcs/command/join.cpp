@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: josuna-t <josuna-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:57:25 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/24 17:44:04 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/05/26 19:09:30 by josuna-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void server::JOIN	(int i , std::string str , data_running *run)
 		for (std::map<std::string,data_client>::iterator iter = cn.begin(); iter != cn.end(); iter++)
 		{
 			this->send_message(iter->second.fd, ":" + clients[i].getnick() + "!~" + clients[i].getusername_host() + " JOIN " + channel + "\n");
-			returnlist += iter->second.nick + " ";
+			returnlist += check_name(iter->second) + " ";
 		} 
 		returnlist += "\n";
 		this->send_message(this->fds[i].fd, returnlist);
