@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msg.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:56:51 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/24 19:56:50 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/05/31 04:29:31 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ void server::MSG	(int i , std::string str , data_running *run)
 		if (channel[0] == '#' && this->cha.find(channel) != this->cha.end())
 		{
 			std::cout << "Busca canal\n";
-			this->msg_to_channel(this->fds[i].fd, ":" + clients[i].getnick() + "!~" + clients[i].getusername_host() + " PRIVMSG " + str + "\n", channel);
+			this->msg_to_channel(this->fds[i].fd, ":" + this->clients[i].get_name() + " PRIVMSG " + str + "\n", channel);
 		}
 		else
-			this->msg_to_user(":" + clients[i].getnick() + "!~" + clients[i].getusername_host() + " PRIVMSG " + str + "\n", channel);
+			this->msg_to_user(":" + this->clients[i].get_name() + " PRIVMSG " + str + "\n", channel);
 	}
 	else
 		this->send_message(this->fds[i].fd,"Server : Set up ur NICK/USER first before sending an MSG\n");

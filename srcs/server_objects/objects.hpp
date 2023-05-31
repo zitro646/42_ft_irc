@@ -25,8 +25,9 @@ class	client {
 		/*###########################################
 		#				FUNCTIONS					#
 		############################################*/
+		std::string get_name			(void) const;
 		void clear_Client			(void);
-		bool check_Client_full_data	(void);
+		bool check_Client_full_data	(void) const;
 		void add_channel			(std::string str);
 		void remove_channel			(std::string str);
 		

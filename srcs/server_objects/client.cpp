@@ -73,7 +73,7 @@ void client::clear_Client(void)
   return ;
 }
 
-bool client::check_Client_full_data	(void)
+bool client::check_Client_full_data	(void) const
 {
   if (this->nick == "" || this->realname_host == "" || this->username_host == "")
     return (0);
@@ -89,4 +89,12 @@ void client::add_channel	(std::string str)
 void client::remove_channel	(std::string str)
 {
   this->client_channels.erase(str);
+}
+
+std::string client::get_name(void) const
+{
+  // clients[i].getnick() + "!~" + clients[i].getusername_host() 
+  if (this->check_Client_full_data())
+    return(this->getnick() + "!~" + this->getusername_host());
+  return("");
 }

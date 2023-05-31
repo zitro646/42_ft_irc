@@ -6,7 +6,7 @@
 /*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:54:55 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/19 17:31:31 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/05/31 04:31:03 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void server::NICK	(int i , std::string nick , data_running *run)
 		if (check_nickname_restrictions(nick))
 		{
 			if (this->find_client_nick(nick,run))
-				this->send_message(this->fds[i].fd,ERR_NICKNAMEINUSE(this->get_host(),nick)); //ERR_NICKNAMEINUSE
+				this->send_message(this->fds[i].fd,ERR_NICKNAMEINUSE(this->clients[i].get_name(),nick)); //ERR_NICKNAMEINUSE
 			else
 			{
 				this->clients[i].setnick(nick);
@@ -37,10 +37,10 @@ void server::NICK	(int i , std::string nick , data_running *run)
 			}	
 		}
 		else
-			this->send_message(this->fds[i].fd,ERR_ERRONEUSNICKNAME(this->get_host())); //ERR_ERRONEUSNICKNAME
+			this->send_message(this->fds[i].fd,ERR_ERRONEUSNICKNAME(this->clients[i].get_name())); //ERR_ERRONEUSNICKNAME
 	}
 	else
-		this->send_message(this->fds[i].fd,ERR_NONICKNAMEGIVEN(this->get_host())); // ERR_NONICKNAMEGIVEN
+		this->send_message(this->fds[i].fd,ERR_NONICKNAMEGIVEN(this->clients[i].get_name())); // ERR_NONICKNAMEGIVEN
 
 	return;
 }

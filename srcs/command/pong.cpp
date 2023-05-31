@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pong.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:59:14 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/16 17:10:02 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/05/31 04:34:32 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void 	server::PONG	(int i , std::string str , data_running *run)
 	std::vector <std::string> line = split_in_vector(str,' ');
 	
 	if (line.size() >= 1)
-		this->send_message(this->fds[i].fd , ":" +this->get_host()+ " PONG "+this->clients[i].getuserip()+" :"+str+"\r\n");
+		this->send_message(this->fds[i].fd , ":" +this->clients[i].get_name()+ " PONG "+this->clients[i].getuserip()+" :"+str+"\r\n");
 	else
-		this->send_message(this->fds[i].fd,ERR_NOORIGIN(this->get_host()));
+		this->send_message(this->fds[i].fd,ERR_NOORIGIN(this->clients[i].get_name()));
 	return;
 }

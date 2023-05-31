@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   notice.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 18:51:53 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/24 19:56:29 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/05/31 04:32:12 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ void server::NOTICE	(int i , std::string str , data_running *run)
 	{
 		if (target[0][0] == '#' && this->cha.find(target[0]) != this->cha.end())
 		{
-			this->msg_to_channel(this->fds[i].fd, ":" + clients[i].getnick() + "!~" + clients[i].getusername_host() + " NOTICE " + str + "\n", target[0]);
+			this->msg_to_channel(this->fds[i].fd, ":" + this->clients[i].get_name() + " NOTICE " + str + "\n", target[0]);
 		}
 		else
         {
-			this->msg_to_user(":" + clients[i].getnick() + "!~" + clients[i].getusername_host() + " NOTICE " + str + "\n", target[0]);
+			this->msg_to_user(":" + this->clients[i].get_name() + " NOTICE " + str + "\n", target[0]);
         }
 	}
     

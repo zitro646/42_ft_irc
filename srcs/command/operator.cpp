@@ -6,7 +6,7 @@
 /*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 20:00:33 by miguelangel       #+#    #+#             */
-/*   Updated: 2023/05/23 20:51:06 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/05/31 04:32:52 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ void server::OPER	(int i , std::string str , data_running *run)
         if (aux[1] == this->get_password())
         {
             this->clients[i].setop(true);
-            this->send_message(this->fds[i].fd,RPL_YOUREOPER(this->get_host())); // RPL_YOUREOPER
+            this->send_message(this->fds[i].fd,RPL_YOUREOPER(this->clients[i].get_name())); // RPL_YOUREOPER
         }
         else
-            this->send_message(this->fds[i].fd,ERR_PASSWDMISMATCH(this->get_host())); // ERR_PASSWDMISMATCH
+            this->send_message(this->fds[i].fd,ERR_PASSWDMISMATCH(this->clients[i].get_name())); // ERR_PASSWDMISMATCH
     }
     else
-        this->send_message(this->fds[i].fd,ERR_NEEDMOREPARAMS(this->get_host())); // ERR_NEEDMOREPARAMS
+        this->send_message(this->fds[i].fd,ERR_NEEDMOREPARAMS(this->clients[i].get_name())); // ERR_NEEDMOREPARAMS
     std::cout << "frase -> "<< str<< std::endl;
 }

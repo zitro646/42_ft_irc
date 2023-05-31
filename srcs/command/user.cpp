@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   user.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:55:05 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/16 17:10:00 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/05/31 04:37:21 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,16 @@ void server::USERNAME	(int client_id , std::string str , data_running *run)
 			this->clients[client_id].setrealname_host(line2[1]);
 			this->clients[client_id].setusername_host(line[0]);
 			this->clients[client_id].setuserip(line[2]);
-			this->send_message(this->fds[client_id].fd,RPL_WELCOME(this->get_host() , this->clients[client_id].getnick()));
-            this->send_message(this->fds[client_id].fd,RPL_YOURHOST( this->get_host() , this->clients[client_id].getusername_host()));
-            this->send_message(this->fds[client_id].fd,RPL_CREATED(this->get_host()));
-            this->send_message(this->fds[client_id].fd,RPL_MYINFO(this->get_host()));
+			this->send_message(this->fds[client_id].fd,RPL_WELCOME(this->clients[client_id].get_name() , this->clients[client_id].getnick()));
+            this->send_message(this->fds[client_id].fd,RPL_YOURHOST(this->clients[client_id].get_name() , this->clients[client_id].getusername_host()));
+            this->send_message(this->fds[client_id].fd,RPL_CREATED(this->clients[client_id].get_name()));
+            this->send_message(this->fds[client_id].fd,RPL_MYINFO(this->clients[client_id].get_name()));
 		}
 		else
-			this->send_message(this->fds[client_id].fd,ERR_ALREADYREGISTERED(this->get_host()));
+			this->send_message(this->fds[client_id].fd,ERR_ALREADYREGISTERED(this->clients[client_id].get_name()));
 	}
 	else
-		this->send_message(this->fds[client_id].fd,ERR_NEEDMOREPARAMS(this->get_host()));
+		this->send_message(this->fds[client_id].fd,ERR_NEEDMOREPARAMS(this->clients[client_id].get_name()));
   
   	return;
 }
