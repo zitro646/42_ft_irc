@@ -71,6 +71,7 @@ class server
 		void 	TOPIC				(int i , std::string str , data_running *run);
 		void 	NOTICE				(int i , std::string str , data_running *run);
 		void	NAMES				(int i , std::string str , data_running *run);
+		void	KICK				(int i , std::string str , data_running *run);
 
 	public:
 

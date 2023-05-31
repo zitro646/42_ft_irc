@@ -64,7 +64,6 @@ class	channel {
 	public:
 
 		channel ( void );
-		// channel ( std::string channel);
 		channel ( const channel & var );
 		~channel ( void );
 		channel &operator=(const channel &tmp);

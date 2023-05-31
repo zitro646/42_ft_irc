@@ -6,7 +6,7 @@
 /*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 17:05:43 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/31 04:07:52 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/05/31 05:52:32 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 #define ERR_PASSWDMISMATCH(client_name)  ":" + client_name + " 464 :Password incorrect\r\n"
 
 #define ERR_NOPRIVILEGES(client_name)  ":" + client_name + " 481 : Permission Denied- You're not an IRC operator\r\n"
+#define ERR_CHANOPRIVSNEEDED(client_name , canal)  ":" + client_name + " 482 " + canal + " : You're not channel operator\r\n"
 #define ERR_NOPRIVS(client_name)  ":" + client_name + " 723 : Insufficient oper privileges.\r\n"
 
 

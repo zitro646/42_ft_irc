@@ -6,7 +6,7 @@
 /*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:57:25 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/31 04:40:01 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/05/31 05:16:34 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ void server::JOIN	(int i , std::string str , data_running *run)
 	(void)run;
 	std::vector <std::string>	line;
 	std::string 				channel;
-	int							result;
-	(void)result;
 	if (str == "")
 	{
 		this->send_message(this->fds[i].fd,ERR_NEEDMOREPARAMS(this->clients[i].get_name()));
