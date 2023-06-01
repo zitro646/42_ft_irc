@@ -6,7 +6,7 @@
 /*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 17:05:43 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/31 05:52:32 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/06/01 22:42:12 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@
 
 #define RPL_NOTOPIC(client_name , canal)	":" + client_name + " 331 " + canal + " : No topic is set\r\n"
 #define RPL_TOPIC(client_name , canal, topic)	":" + client_name + " TOPIC " + canal + " :" + topic + "\r\n"
+  //"<client> <nick> <channel>" :mortiz_!~miguelang@139.47.73.236 INVITE mortiz :#4243
+#define RPL_INVITE(client_name , cliente, canal)	":" + client_name + " INVITE " + cliente + " :" + canal + "\r\n"
+
 
 #define RPL_YOUREOPER(client_name)	":" + client_name + " 381 : You are now an IRC operator\r\n"
 

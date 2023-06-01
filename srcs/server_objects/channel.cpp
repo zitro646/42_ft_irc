@@ -20,11 +20,6 @@ channel::channel( void ) : topic("")
   return ;
 }
 
-// channel::channel( std::string str) : channel_name(str)
-// {
-//   return ;
-// }
-
 channel::channel( const channel & var ) {
   *this = var;
   std::cout << "Copy constructor called" << std::endl;
@@ -74,9 +69,9 @@ void	channel::remove_client	(std::string str)
   return;
 }
 
-std::map<std::string, data_client>::iterator	channel::find_client	(std::string str)
+std::map<std::string, data_client>::iterator	channel::find_client	(std::string hostname)
 {
-  return (this->client_list.find(str));
+  return (this->client_list.find(hostname));
 }
 
 bool	channel::is_client_in_list(std::string str)
