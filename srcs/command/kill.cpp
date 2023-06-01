@@ -6,7 +6,7 @@
 /*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 21:16:56 by miguelangel       #+#    #+#             */
-/*   Updated: 2023/05/31 04:28:18 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/06/01 23:59:11 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,30 +16,35 @@
 //ERR_NOOPERHOST (491) Por como esta no es necesario de momento (no hay MODO)
 void server::KILL	(int i , std::string str , data_running *run) 
 {	
-	(void)i;
-    (void)str;
-    (void)run;
+
     std::vector<std::string> aux = split_in_vector(str, ' ');
+    std::string reason;
+
     if (!this->clients[i].getop())
     {
         this->send_message(this->fds[i].fd,ERR_NOPRIVILEGES(this->clients[i].get_name())); // ERR_NOPRIVILEGES
         return;
     }
 
-    if (aux.size() == 2)
+    reason = ":";
+    if (aux.size() >= 2)
+        reason = &str[str.find(':', 0)];
+
+    if (aux.size() >= 2)
     {
         for (int x = 0;x < run->n_active_fds; x++)
-            if (this->clients[x].getnick() == aux[0] && this->clients[x].getop() == false)
+            if (this->clients[x].getnick() == aux[0])
             {
-                //this->send_message(this->fds[i].fd,ERR_NEEDMOREPARAMS(this->clients[i].get_name())); // Necesito enviar el mensaje de eliminado
+                if (this->clients[x].getop() == false)
+                {
+                    this->msg_to_all(this->fds[x].fd, ":" +clients[i].getnick() + " QUIT "+ ": killed " +this->clients[i].get_name() + " " + reason + "\r\n", run);
+                    this->send_message(this->fds[x].fd, ":" +clients[i].get_name() + " ERROR "+ ":" + reason + "\r\n");
+                    this->close_fds_client(x,run);
+                }
+                else
+                    this->send_message(this->fds[i].fd,ERR_NOPRIVS(this->clients[i].get_name())); // ERR_NOPRIVS
                 return;
             }
-            else if (this->clients[x].getnick() == aux[0] && this->clients[x].getop() == true)
-            {
-                this->send_message(this->fds[i].fd,ERR_NOPRIVS(this->clients[i].get_name())); // ERR_NOPRIVS
-                return;
-            }
-        
     }
     else
         this->send_message(this->fds[i].fd,ERR_NEEDMOREPARAMS(this->clients[i].get_name())); // ERR_NEEDMOREPARAMS
