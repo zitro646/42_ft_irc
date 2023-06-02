@@ -73,6 +73,7 @@ class server
 		void	NAMES				(int i , std::string str , data_running *run);
 		void	KICK				(int i , std::string str , data_running *run);
 		void	INVITE				(int i , std::string str , data_running *run);
+		void	RESTART				(int i , std::string str , data_running *run);
 
 	public:
 
