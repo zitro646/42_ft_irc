@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   kill.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
+/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 21:16:56 by miguelangel       #+#    #+#             */
-/*   Updated: 2023/06/01 23:59:11 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/06/06 18:14:01 by mortiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../server/server.hpp"
 #include "replys.hpp"
+
+//REDO KILL
 
 //ERR_NOOPERHOST (491) Por como esta no es necesario de momento (no hay MODO)
 void server::KILL	(int i , std::string str , data_running *run) 

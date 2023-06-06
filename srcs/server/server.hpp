@@ -16,7 +16,7 @@ class server
 		client				clients[N_CLIENTS];
 		pollfd				fds[N_CLIENTS];
 		data_server 		serv_data;
-		std::map<std::string, std::map<std::string, int> > channels;
+		// std::map<std::string, std::map<std::string, int> > channels;
 
 		/*###########################################
 		#			CLOSED    	FUNCTIONS			#
@@ -74,6 +74,7 @@ class server
 		void	KICK				(int i , std::string str , data_running *run);
 		void	INVITE				(int i , std::string str , data_running *run);
 		void	RESTART				(int i , std::string str , data_running *run);
+		void	MODE				(int i , std::string str , data_running *run);
 
 	public:
 
