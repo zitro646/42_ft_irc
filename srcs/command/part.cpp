@@ -6,7 +6,7 @@
 /*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:57:51 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/06/07 15:57:00 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/06/07 18:24:09 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,6 @@ void 	server::PART	(int i , std::string str , data_running *run)
 	std::string 				channel;
 	int							resultado = 0;
 
-	std::cout << YELLOW;
-	this->look_cha();
-	std::cout << RESET;
-
 	if (str == "")
 	{
 		this->send_message(this->fds[i].fd,ERR_NEEDMOREPARAMS(this->clients[i].get_name()));
@@ -37,7 +33,7 @@ void 	server::PART	(int i , std::string str , data_running *run)
 	{
 		channel = line[x];
 		if (this->cha.find(channel) != this->cha.end())
-			if (this->cha[channel].is_client_in_list(this->clients[i].getusername_host()))
+			if (this->cha[channel].is_hostname_client_in_list(this->clients[i].getusername_host()))
 				resultado = 1;
 		if (resultado)
 		{

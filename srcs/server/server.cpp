@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 15:15:25 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/16 19:39:18 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/06/07 16:21:16 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ server::server( void )
 server::server( std::string network , std::string prt , std::string pass )
 {
 	std::vector <std::string>	seglist;
-	// std::map<std::string, std::map<std::string,int> > cn;
-
-	// channels = cn;
+	
 	seglist = split_in_vector(network,':');
     if (seglist.size() == 3)
 		this->serv_data = (data_server) {seglist[0], seglist[1], seglist[2], prt, pass};

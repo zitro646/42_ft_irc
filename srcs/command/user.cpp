@@ -6,7 +6,7 @@
 /*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:55:05 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/31 04:37:21 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/06/07 17:43:24 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void server::USERNAME	(int client_id , std::string str , data_running *run)
 		line[1].erase(line[1].find_last_not_of(" \n\r\t")+1);
 		line2[1].erase(line2[1].find_last_not_of("\n\r\t")+1);
 		//Intentamos crear el user name
-		if (!this->find_client_username(line[0],run))
+		if (!this->find_client_by_hostname_username(line[0],run))
 		{
 			this->clients[client_id].setrealname_host(line2[1]);
 			this->clients[client_id].setusername_host(line[0]);

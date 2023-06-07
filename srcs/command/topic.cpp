@@ -6,7 +6,7 @@
 /*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 22:32:30 by miguelangel       #+#    #+#             */
-/*   Updated: 2023/06/07 00:45:12 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/06/07 17:12:29 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void server::TOPIC	(int i , std::string str , data_running *run)
         return;
     }
 
-    if (!this->cha[channel].is_client_in_list(this->clients[i].getusername_host()))
+    if (!this->cha[channel].is_hostname_client_in_list(this->clients[i].getusername_host()))
     {
         this->send_message(this->fds[i].fd,ERR_NOTONCHANNEL(this->clients[i].get_name(),channel));
         return;

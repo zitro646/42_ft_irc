@@ -6,7 +6,7 @@
 /*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 00:47:48 by miguelangel       #+#    #+#             */
-/*   Updated: 2023/06/07 00:50:59 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/06/07 18:24:53 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,36 +16,25 @@
 void server::MODE   (int i , std::string str , data_running *run)
 {
     (void)run;
+    std::string canal;
+    std::string nickname;
     std::vector <std::string>   line;
     line = split_in_vector(str, ' ');
     if (line.size() != 3)
-    {
-        this->send_message(this->fds[i].fd,ERR_NEEDMOREPARAMS(this->clients[i].get_name()));
         return;
-    }
-    if ((this->cha[line[0]].find_client(this->clients[i].getusername_host())->second.op != 1))
-    {
-        std::cout << this->cha[line[0]].find_client(this->clients[i].getusername_host())->second.op << std::endl;
-        this->send_message(this->fds[i].fd,ERR_NEEDMOREPARAMS(this->clients[i].get_name()));
+    nickname = line[2];
+    canal = line[0];
+    if (this->cha.find(canal) == this->cha.end())
+       return;
+    
+    //Comprobamos que ambos esten en la lista y que quien manda la orden sea operador del canal
+    if (!(this->cha[canal].is_nick_client_in_list(nickname)))
+        return ;
+    if (!(this->cha[canal].is_hostname_client_in_list(this->clients[i].getusername_host())))
+        return ;
+    if ((this->cha[canal].find_client_by_hostname(this->clients[i].getusername_host())->second.op != 1))
         return;
-    }
-    if (this->cha.find(line[0]) != this->cha.end())
-    {
-       if ((this->cha[line[0]].is_client_in_list(this->cha[line[0]].find_client(line[2])->second.nick)))
-       {
-            std::cout << line[2] << this->cha[line[0]].is_client_in_list(line[2]) << std::endl;
-            return ;
-       }
-    }
-    else
-        std::cout << line[0] << std::endl;
-    std::map<std::string,data_client> cn = this->cha[line[0]].getclientlist();
-    for (std::map<std::string,data_client>::iterator iter = cn.begin(); iter != cn.end(); iter++)
-    {
-        if (iter->second.nick == line[2])
-        {
-            iter->second.op = 1;
-        }
-        this->send_message(iter->second.fd, ":" + this->clients[i].get_name() + " MODE " + str + "\n");
-    }
+    
+    this->msg_to_channel(this->fds[i].fd, ":" + this->clients[i].get_name() + " MODE " + str + "\r\n", canal);
+    this->send_message(this->fds[i].fd, ":" + this->clients[i].get_name() + " MODE " + str + "\r\n");
 }

@@ -6,7 +6,7 @@
 /*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 18:37:55 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/06/07 01:49:53 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/06/07 18:23:34 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int		server::get_client_id_by_nick	(std::string nick, data_running *run)
     return (-1);
 }
 
-int server::find_client_nick(std::string str, data_running *run)
+int server::find_client_by_hostname_nick(std::string str, data_running *run)
 {
     for (int i = 0;i < run->n_active_fds; i++)
         if (this->clients[i].getnick() == str)
@@ -118,7 +118,7 @@ int server::find_client_nick(std::string str, data_running *run)
     return (0);
 }
 
-int server::find_client_username(std::string str, data_running *run)
+int server::find_client_by_hostname_username(std::string str, data_running *run)
 {
     for (int i = 0;i < run->n_active_fds; i++)
         if (this->clients[i].getusername_host() == str)
@@ -126,7 +126,7 @@ int server::find_client_username(std::string str, data_running *run)
     return (0);
 }
 
-int server::find_client_realname(std::string str, data_running *run)
+int server::find_client_by_hostname_realname(std::string str, data_running *run)
 {
     for (int i = 0;i < run->n_active_fds; i++)
         if (this->clients[i].getrealname_host() == str)
@@ -158,15 +158,6 @@ int server::recv_message(int fd , std::string &str)
 	   	return (-1);
 	std::cout << get_Time_now() << BLUE << "Message from fd(" << fd << "):"<< std::endl << str << RESET << std::endl;
 	return (1);
-	// if (str.find('\n',0) <  str.size())
-	// {
-	// 	std::cout << get_Time_now() << BLUE << "Message from fd(" << fd << "):"<< std::endl << str << RESET << std::endl;
-    // 	return (1);
-	// }
-	// else
-	// {
-	// 	return (-1);
-	// }
 }
 
 int server::send_message(int fd, std::string str)
