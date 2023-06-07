@@ -6,7 +6,7 @@
 /*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 22:32:30 by miguelangel       #+#    #+#             */
-/*   Updated: 2023/05/31 04:35:19 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/06/07 00:45:12 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 //ERR_NOOPERHOST (491) Por como esta no es necesario de momento (no hay MODO)
 void server::TOPIC	(int i , std::string str , data_running *run) 
 {	
-	(void)i;
-    (void)str;
     (void)run;
     std::vector <std::string>	line = split_in_vector(str,' ');
 	std::string 				channel;
@@ -53,5 +51,6 @@ void server::TOPIC	(int i , std::string str , data_running *run)
     {
         this->cha[channel].settopic(topic);
         this->send_message(this->fds[i].fd,RPL_TOPIC(this->clients[i].get_name(),channel,topic));//Devolverle el topic del canal 
+        this->msg_to_channel(this->fds[i].fd,RPL_TOPIC(this->clients[i].get_name(),channel,this->cha[channel].gettopic()),channel);
     }
 }

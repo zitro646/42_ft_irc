@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server_utilities.cpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 18:37:55 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/24 19:22:42 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/06/07 01:49:53 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,13 @@ int server::msg_to_all(int fd, std::string str, data_running *run)
 	return (1);
 }
 
-int server::msg_to_channel(int i, std::string str, std::string channel)
+int server::msg_to_channel(int fd, std::string str, std::string channel)
 {
-	(void) i;
 	(void) str;
 	std::map<std::string, data_client> cn = this->cha[channel].getclientlist();
 	for (std::map<std::string, data_client>::iterator iter = cn.begin(); iter != cn.end(); iter++)
 	{
-		if (iter->second.fd != i)
+		if (iter->second.fd != fd)
 		{
 			std::cout << iter->first << iter->second.fd << std::endl;
 			this->send_message(iter->second.fd,str);
