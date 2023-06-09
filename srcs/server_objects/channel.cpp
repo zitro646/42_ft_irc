@@ -69,14 +69,43 @@ void	channel::remove_client	(std::string str)
   return;
 }
 
-std::map<std::string, data_client>::iterator	channel::find_client	(std::string hostname)
+std::map<std::string, data_client>::iterator	channel::find_client_by_hostname	(std::string hostname)
 {
   return (this->client_list.find(hostname));
 }
 
-bool	channel::is_client_in_list(std::string str)
+std::map<std::string, data_client>::iterator	channel::find_client_by_nickname	(std::string nickname)
 {
-  return ((this->client_list.find(str) != this->client_list.end()));
+  std::map<std::string, data_client>::iterator iter;
+  std::map<std::string, data_client> cn = this->getclientlist();
+  for (iter = cn.begin();iter != cn.end();iter++)
+  {
+    if (iter->second.nick == nickname)
+      return iter;
+  }
+  iter = cn.end();
+  return(iter);
+}
+
+bool	channel::is_hostname_client_in_list(std::string hostname)
+{
+  if (this->client_list.find(hostname) != this->client_list.end())
+    return (1);
+  return(0);
+  //return ((this->client_list.find(hostname) != this->client_list.end()));
+}
+
+bool	channel::is_nick_client_in_list(std::string nickname)
+{
+  std::map<std::string, data_client>::iterator iter;
+  std::map<std::string, data_client> cn = this->getclientlist();
+  for (iter = cn.begin();iter != cn.end();iter++)
+  {
+    if (iter->second.nick == nickname)
+      return 1;
+  }
+  return(0);
+  //return ((this->client_list.find(hostname) != this->client_list.end()));
 }
 
 void	channel::modify_nick	(std::string usr , std::string nick)

@@ -6,7 +6,7 @@
 /*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 21:18:00 by miguelangel       #+#    #+#             */
-/*   Updated: 2023/05/31 06:27:17 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/06/07 18:25:01 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void server::KICK	(int i , std::string str , data_running *run)
         this->send_message(this->fds[i].fd, ERR_NOTONCHANNEL(this->clients[i].get_name(),channel));
         return;
     }
-    if(this->cha[channel].find_client(this->clients[i].getusername_host())->second.op == 0)
+    if(this->cha[channel].find_client_by_hostname(this->clients[i].getusername_host())->second.op == 0)
     {
         this->send_message(this->fds[i].fd, ERR_CHANOPRIVSNEEDED(this->clients[i].get_name(),channel));
         return;
@@ -72,6 +72,4 @@ void server::KICK	(int i , std::string str , data_running *run)
         }
     }
     
-    
-    //:mortiz!~miguelang@139.47.73.236 KICK #4343 wololon :wololon
 }

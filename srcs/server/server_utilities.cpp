@@ -3,34 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   server_utilities.cpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 18:37:55 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/24 19:22:42 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/06/09 13:52:40 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.hpp"
 
 //
-void server::look_channels(void) const
-{
-	std::map<std::string, std::map<std::string, int> >::iterator me_iter;
-	std::map<std::string, int>::iterator mi_iter;
-	std::map<std::string, std::map<std::string, int> > cn = this->channels;
-	std::cout << "Canales en general " << std::endl;
-	for (me_iter = cn.begin(); me_iter != cn.end(); me_iter++)
-	{
-		std::cout << "Canal " << me_iter->first << std::endl;
-		for (mi_iter = me_iter->second.begin(); mi_iter != me_iter->second.end(); mi_iter++)
-		{
-			std::cout << mi_iter->first << " | " << mi_iter->second << std::endl;
-		}
-		std::cout << "- - - - - - - - -" << std::endl;
-	}
+// void server::look_channels(void) const
+// {
+// 	std::map<std::string, std::map<std::string, int> >::iterator me_iter;
+// 	std::map<std::string, int>::iterator mi_iter;
+// 	std::map<std::string, std::map<std::string, int> > cn = this->channels;
+// 	std::cout << "Canales en general " << std::endl;
+// 	for (me_iter = cn.begin(); me_iter != cn.end(); me_iter++)
+// 	{
+// 		std::cout << "Canal " << me_iter->first << std::endl;
+// 		for (mi_iter = me_iter->second.begin(); mi_iter != me_iter->second.end(); mi_iter++)
+// 		{
+// 			std::cout << mi_iter->first << " | " << mi_iter->second << std::endl;
+// 		}
+// 		std::cout << "- - - - - - - - -" << std::endl;
+// 	}
 
 	
-}
+// }
 
 
 void server::look_cha(void) const
@@ -74,14 +74,13 @@ int server::msg_to_all(int fd, std::string str, data_running *run)
 	return (1);
 }
 
-int server::msg_to_channel(int i, std::string str, std::string channel)
+int server::msg_to_channel(int fd, std::string str, std::string channel)
 {
-	(void) i;
 	(void) str;
 	std::map<std::string, data_client> cn = this->cha[channel].getclientlist();
 	for (std::map<std::string, data_client>::iterator iter = cn.begin(); iter != cn.end(); iter++)
 	{
-		if (iter->second.fd != i)
+		if (iter->second.fd != fd)
 		{
 			std::cout << iter->first << iter->second.fd << std::endl;
 			this->send_message(iter->second.fd,str);
@@ -111,7 +110,7 @@ int		server::get_client_id_by_nick	(std::string nick, data_running *run)
     return (-1);
 }
 
-int server::find_client_nick(std::string str, data_running *run)
+int server::find_client_by_hostname_nick(std::string str, data_running *run)
 {
     for (int i = 0;i < run->n_active_fds; i++)
         if (this->clients[i].getnick() == str)
@@ -119,7 +118,7 @@ int server::find_client_nick(std::string str, data_running *run)
     return (0);
 }
 
-int server::find_client_username(std::string str, data_running *run)
+int server::find_client_by_hostname_username(std::string str, data_running *run)
 {
     for (int i = 0;i < run->n_active_fds; i++)
         if (this->clients[i].getusername_host() == str)
@@ -127,7 +126,7 @@ int server::find_client_username(std::string str, data_running *run)
     return (0);
 }
 
-int server::find_client_realname(std::string str, data_running *run)
+int server::find_client_by_hostname_realname(std::string str, data_running *run)
 {
     for (int i = 0;i < run->n_active_fds; i++)
         if (this->clients[i].getrealname_host() == str)
@@ -159,15 +158,6 @@ int server::recv_message(int fd , std::string &str)
 	   	return (-1);
 	std::cout << get_Time_now() << BLUE << "Message from fd(" << fd << "):"<< std::endl << str << RESET << std::endl;
 	return (1);
-	// if (str.find('\n',0) <  str.size())
-	// {
-	// 	std::cout << get_Time_now() << BLUE << "Message from fd(" << fd << "):"<< std::endl << str << RESET << std::endl;
-    // 	return (1);
-	// }
-	// else
-	// {
-	// 	return (-1);
-	// }
 }
 
 int server::send_message(int fd, std::string str)

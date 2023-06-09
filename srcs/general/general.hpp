@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   general.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josuna-t <josuna-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 17:05:27 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/26 19:05:50 by josuna-t         ###   ########.fr       */
+/*   Updated: 2023/06/07 01:14:18 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #define	sock_in		struct sockaddr_in
 #define	sock_addr	struct sockaddr
-#define N_CLIENTS	3+1			//Numero de Clientes (fd) + el fd del host
+#define N_CLIENTS	5+1			//Numero de Clientes (fd) + el fd del host
 #define TIMEOUT_MS	10*1000*60 	//Tiempo de desconexion en caso de no recivir nada
 
 #define SERV_VERS	"0.01"

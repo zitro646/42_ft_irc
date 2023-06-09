@@ -16,7 +16,7 @@ class server
 		client				clients[N_CLIENTS];
 		pollfd				fds[N_CLIENTS];
 		data_server 		serv_data;
-		std::map<std::string, std::map<std::string, int> > channels;
+		// std::map<std::string, std::map<std::string, int> > channels;
 
 		/*###########################################
 		#			CLOSED    	FUNCTIONS			#
@@ -38,9 +38,9 @@ class server
 		/*###########################################
 		#		UTILITIES    	FUNCTIONS			#
 		############################################*/
-		int		find_client_nick		(std::string str, data_running *run);
-		int 	find_client_username	(std::string str, data_running *run);
-		int		find_client_realname	(std::string str, data_running *run);
+		int		find_client_by_hostname_nick		(std::string str, data_running *run);
+		int 	find_client_by_hostname_username	(std::string str, data_running *run);
+		int		find_client_by_hostname_realname	(std::string str, data_running *run);
 		int		get_client_id_by_nick	(std::string nick, data_running *run);
 		void	erase_client_from_channels(int id);
 		int		recv_message			(int fd, std::string &str);
@@ -74,6 +74,7 @@ class server
 		void	KICK				(int i , std::string str , data_running *run);
 		void	INVITE				(int i , std::string str , data_running *run);
 		void	RESTART				(int i , std::string str , data_running *run);
+		void	MODE				(int i , std::string str , data_running *run);
 
 	public:
 
