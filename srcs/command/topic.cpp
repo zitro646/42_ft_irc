@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   topic.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
+/*   By: josuna-t <josuna-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 22:32:30 by miguelangel       #+#    #+#             */
-/*   Updated: 2023/06/07 17:12:29 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/06/09 18:55:52 by josuna-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,23 @@ void server::TOPIC	(int i , std::string str , data_running *run)
         return;
     }
     
-
-    if (topic == "")
+    if ((this->cha[channel].getmodes().find('t') == std::string::npos) || (this->cha[channel].getmodes().find('t') != std::string::npos && this->cha[channel].find_client_by_nickname(this->clients[i].getnick())->second.op == 1))
     {
-        if (this->cha[channel].gettopic() != "")
-            this->send_message(this->fds[i].fd,RPL_TOPIC(this->clients[i].get_name(),channel,this->cha[channel].gettopic()));//Devolverle el topic del canal
+        std::cout << "entra aqui\n";
+        if (topic == "")
+        {
+            if (this->cha[channel].gettopic() != "")
+                this->send_message(this->fds[i].fd,RPL_TOPIC(this->clients[i].get_name(),channel,this->cha[channel].gettopic()));//Devolverle el topic del canal
+            else
+                this->send_message(this->fds[i].fd,RPL_NOTOPIC(this->clients[i].get_name(),channel));//Devolverle el topic del canal
+        }
         else
-            this->send_message(this->fds[i].fd,RPL_NOTOPIC(this->clients[i].get_name(),channel));//Devolverle el topic del canal
+        {
+            this->cha[channel].settopic(topic);
+            this->send_message(this->fds[i].fd,RPL_TOPIC(this->clients[i].get_name(),channel,topic));//Devolverle el topic del canal 
+            this->msg_to_channel(this->fds[i].fd,RPL_TOPIC(this->clients[i].get_name(),channel,this->cha[channel].gettopic()),channel);
+        }
     }
     else
-    {
-        this->cha[channel].settopic(topic);
-        this->send_message(this->fds[i].fd,RPL_TOPIC(this->clients[i].get_name(),channel,topic));//Devolverle el topic del canal 
-        this->msg_to_channel(this->fds[i].fd,RPL_TOPIC(this->clients[i].get_name(),channel,this->cha[channel].gettopic()),channel);
-    }
+        this->send_message(this->fds[i].fd, "482" + this->clients[i].get_name() + " You're not a channel operator\n");
 }

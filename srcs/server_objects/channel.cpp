@@ -12,10 +12,9 @@
 
 #include "objects.hpp"
 
-channel::channel( void ) : topic("")
+channel::channel( void ) : topic(""), modes("")
 {
   std::map<std::string, data_client> c;
-
   client_list = c;
   return ;
 }
