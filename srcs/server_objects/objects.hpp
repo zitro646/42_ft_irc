@@ -74,8 +74,10 @@ class	channel {
 	void											add_client		(std::string str , int fd , std::string nick , bool op);
 	void											remove_client	(std::string str);
 	void											modify_nick		(std::string usr , std::string nick);
-	std::map<std::string, data_client>::iterator	find_client		(std::string str);
-	bool											is_client_in_list(std::string str);
+	std::map<std::string, data_client>::iterator	find_client_by_hostname		(std::string str);
+	std::map<std::string, data_client>::iterator	find_client_by_nickname		(std::string str);
+	bool											is_hostname_client_in_list(std::string hostname);
+	bool											is_nick_client_in_list(std::string nick);
 
 	/*###########################################
 	#				GETTER						#

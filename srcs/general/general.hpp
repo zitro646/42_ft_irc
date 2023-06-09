@@ -6,7 +6,7 @@
 /*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 17:05:27 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/06/06 19:02:53 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/06/09 16:39:54 by mortiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #define	sock_in		struct sockaddr_in
 #define	sock_addr	struct sockaddr
-#define N_CLIENTS	3+1			//Numero de Clientes (fd) + el fd del host
+#define N_CLIENTS	5+1			//Numero de Clientes (fd) + el fd del host
 #define TIMEOUT_MS	10*1000*60 	//Tiempo de desconexion en caso de no recivir nada
 
 #define SERV_VERS	"0.01"
