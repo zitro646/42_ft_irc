@@ -16,7 +16,7 @@ class server
 		client				clients[N_CLIENTS];
 		pollfd				fds[N_CLIENTS];
 		data_server 		serv_data;
-		std::map<std::string, std::map<std::string, int> > channels;
+		// std::map<std::string, std::map<std::string, int> > channels;
 
 		/*###########################################
 		#			CLOSED    	FUNCTIONS			#

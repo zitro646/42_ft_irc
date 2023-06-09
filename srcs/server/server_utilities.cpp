@@ -6,31 +6,31 @@
 /*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 18:37:55 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/06/07 18:23:34 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/06/09 13:52:40 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.hpp"
 
 //
-void server::look_channels(void) const
-{
-	std::map<std::string, std::map<std::string, int> >::iterator me_iter;
-	std::map<std::string, int>::iterator mi_iter;
-	std::map<std::string, std::map<std::string, int> > cn = this->channels;
-	std::cout << "Canales en general " << std::endl;
-	for (me_iter = cn.begin(); me_iter != cn.end(); me_iter++)
-	{
-		std::cout << "Canal " << me_iter->first << std::endl;
-		for (mi_iter = me_iter->second.begin(); mi_iter != me_iter->second.end(); mi_iter++)
-		{
-			std::cout << mi_iter->first << " | " << mi_iter->second << std::endl;
-		}
-		std::cout << "- - - - - - - - -" << std::endl;
-	}
+// void server::look_channels(void) const
+// {
+// 	std::map<std::string, std::map<std::string, int> >::iterator me_iter;
+// 	std::map<std::string, int>::iterator mi_iter;
+// 	std::map<std::string, std::map<std::string, int> > cn = this->channels;
+// 	std::cout << "Canales en general " << std::endl;
+// 	for (me_iter = cn.begin(); me_iter != cn.end(); me_iter++)
+// 	{
+// 		std::cout << "Canal " << me_iter->first << std::endl;
+// 		for (mi_iter = me_iter->second.begin(); mi_iter != me_iter->second.end(); mi_iter++)
+// 		{
+// 			std::cout << mi_iter->first << " | " << mi_iter->second << std::endl;
+// 		}
+// 		std::cout << "- - - - - - - - -" << std::endl;
+// 	}
 
 	
-}
+// }
 
 
 void server::look_cha(void) const
