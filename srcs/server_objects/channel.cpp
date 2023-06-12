@@ -12,10 +12,9 @@
 
 #include "objects.hpp"
 
-channel::channel( void ) : topic("")
+channel::channel( void ) : topic(""), modes("")
 {
   std::map<std::string, data_client> c;
-
   client_list = c;
   return ;
 }
@@ -47,7 +46,7 @@ std::ostream &operator<<(std::ostream& os, const channel &tmp)
 	os << "Topic " << tmp.gettopic() << std::endl;
   for (mi_iter = cn.begin(); mi_iter != cn.end(); mi_iter++)
 		{
-			os << "username: '" << mi_iter->first << "' | fd :" << mi_iter->second.fd << "' | nick :" << mi_iter->second.nick <<std::endl;
+			os << "username: '" << mi_iter->first << "' | fd :" << mi_iter->second.fd << "' | nick :" << mi_iter->second.nick << "' | op :" << mi_iter->second.op <<std::endl;
 		}
 	return (os);
 }

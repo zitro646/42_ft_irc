@@ -6,7 +6,7 @@
 /*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 22:32:30 by miguelangel       #+#    #+#             */
-/*   Updated: 2023/06/07 17:12:29 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/06/12 23:44:24 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ void server::TOPIC	(int i , std::string str , data_running *run)
         return;
     }
     
-
+    //Una vez hacemos las comprobaciones basicas hacemos las normales
     if (topic == "")
-    {
+       {
         if (this->cha[channel].gettopic() != "")
             this->send_message(this->fds[i].fd,RPL_TOPIC(this->clients[i].get_name(),channel,this->cha[channel].gettopic()));//Devolverle el topic del canal
         else
@@ -49,8 +49,14 @@ void server::TOPIC	(int i , std::string str , data_running *run)
     }
     else
     {
+        if ((this->cha[channel].getmodes().find('t') != std::string::npos) &&\
+            this->cha[channel].find_client_by_hostname(this->clients[i].getusername_host())->second.op != 1)
+        {
+            this->send_message(this->fds[i].fd,ERR_CHANOPRIVSNEEDED(this->clients[i].get_name(),channel));
+            return;
+        }
         this->cha[channel].settopic(topic);
         this->send_message(this->fds[i].fd,RPL_TOPIC(this->clients[i].get_name(),channel,topic));//Devolverle el topic del canal 
         this->msg_to_channel(this->fds[i].fd,RPL_TOPIC(this->clients[i].get_name(),channel,this->cha[channel].gettopic()),channel);
     }
-}
+    }

@@ -6,7 +6,7 @@
 /*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:57:25 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/06/07 17:12:29 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/06/12 21:39:04 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@ void server::JOIN	(int i , std::string str , data_running *run)
 	(void)run;
 	std::vector <std::string>	line;
 	std::string 				channel;
+
+	std::cout <<YELLOW << "Antes del join" << std::endl;
+	this->look_cha();
+	std::cout << RESET;
+
 	if (str == "")
 	{
 		this->send_message(this->fds[i].fd,ERR_NEEDMOREPARAMS(this->clients[i].get_name()));
@@ -37,7 +42,9 @@ void server::JOIN	(int i , std::string str , data_running *run)
 			else
 				this->cha[channel].add_client(this->clients[i].getusername_host(),this->fds[i].fd,this->clients[i].getnick(),false);
 			this->clients[i].add_channel(channel);
-
+			
+			//Establecemos el modo a t
+			this->cha[channel].setmodes("t");
 			//Esta parte hace el reply al cliente y a los demás
 			std::string returnlist = ":" + this->clients[i].get_name() + " 353 " + clients[i].getusername_host() + " = " + channel + " :"; //RPL_
 			
