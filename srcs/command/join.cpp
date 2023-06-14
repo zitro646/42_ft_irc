@@ -6,7 +6,7 @@
 /*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:57:25 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/06/09 16:40:23 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/06/14 03:47:47 by mortiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,11 @@ void server::JOIN	(int i , std::string str , data_running *run)
 	(void)run;
 	std::vector <std::string>	line;
 	std::string 				channel;
-	
+
+	std::cout <<YELLOW << "Antes del join" << std::endl;
+	this->look_cha();
+	std::cout << RESET;
+
 	if (str == "")
 	{
 		this->send_message(this->fds[i].fd,ERR_NEEDMOREPARAMS(this->clients[i].get_name()));
@@ -34,11 +38,13 @@ void server::JOIN	(int i , std::string str , data_running *run)
 			std::cout << "Resultados "<< (this->cha.find(channel) == this->cha.end()) << !(this->cha[channel].is_hostname_client_in_list(this->clients[i].getusername_host())) << std::endl;
 			//Si el canal no existe añadimos el usuario como el creador del channel (Half-op)
 			if (this->cha[channel].getclientlist().size() == 0)
-				this->cha[channel].add_client(this->clients[i].getusername_host(),this->fds[i].fd,this->clients[i].getnick(),true);
+				this->cha[channel].add_client(this->clients[i].getusername_host(),this->fds[i].fd,this->clients[i].getnick(),1);
 			else
-				this->cha[channel].add_client(this->clients[i].getusername_host(),this->fds[i].fd,this->clients[i].getnick(),false);
+				this->cha[channel].add_client(this->clients[i].getusername_host(),this->fds[i].fd,this->clients[i].getnick(),0);
 			this->clients[i].add_channel(channel);
-
+			
+			//Establecemos el modo a t
+			this->cha[channel].setmodes("t");
 			//Esta parte hace el reply al cliente y a los demás
 			std::string returnlist = ":" + this->clients[i].get_name() + " 353 " + clients[i].getusername_host() + " = " + channel + " :"; //RPL_
 			

@@ -12,10 +12,9 @@
 
 #include "objects.hpp"
 
-channel::channel( void ) : topic("")
+channel::channel( void ) : topic(""), modes("")
 {
   std::map<std::string, data_client> c;
-
   client_list = c;
   return ;
 }
@@ -47,7 +46,7 @@ std::ostream &operator<<(std::ostream& os, const channel &tmp)
 	os << "Topic " << tmp.gettopic() << std::endl;
   for (mi_iter = cn.begin(); mi_iter != cn.end(); mi_iter++)
 		{
-			os << "username: '" << mi_iter->first << "' | fd :" << mi_iter->second.fd << "' | nick :" << mi_iter->second.nick <<std::endl;
+			os << "username: '" << mi_iter->first << "' | fd :" << mi_iter->second.fd << "' | nick :" << mi_iter->second.nick << "' | op :" << mi_iter->second.op <<std::endl;
 		}
 	return (os);
 }
@@ -85,6 +84,22 @@ std::map<std::string, data_client>::iterator	channel::find_client_by_nickname	(s
   }
   iter = cn.end();
   return(iter);
+}
+
+void	channel::set_user_op_via_nick(std::string nickname, int status)
+{
+  std::map<std::string, data_client>::iterator iter;
+  std::map<std::string, data_client> cn = this->getclientlist();
+  for (iter = cn.begin();iter != cn.end();iter++)
+  {
+    if (iter->second.nick == nickname)
+    {
+      this->client_list[iter->first].op = status;
+      return;
+    }
+  }
+  iter = cn.end();
+  return;
 }
 
 bool	channel::is_hostname_client_in_list(std::string hostname)

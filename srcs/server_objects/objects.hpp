@@ -58,9 +58,9 @@ std::ostream &operator<<(std::ostream& os, const client &tmp);
 class	channel {
 
 	private:
-		std::set<std::string> chanel_operators;
 		std::map<std::string, data_client> client_list;
 		std::string					topic;
+		std::string					modes;
 	public:
 
 		channel ( void );
@@ -73,7 +73,8 @@ class	channel {
 	############################################*/
 	void											add_client		(std::string str , int fd , std::string nick , bool op);
 	void											remove_client	(std::string str);
-	void											modify_nick		(std::string usr , std::string nick);
+	void											modify_nick		(std::string usr ,std::string nick);
+	void											set_user_op_via_nick(std::string nick , int status);
 	std::map<std::string, data_client>::iterator	find_client_by_hostname		(std::string str);
 	std::map<std::string, data_client>::iterator	find_client_by_nickname		(std::string str);
 	bool											is_hostname_client_in_list(std::string hostname);
@@ -84,11 +85,12 @@ class	channel {
 	############################################*/
 	std::string 				gettopic		(void)	const	{return(this->topic);};
 	std::map<std::string, data_client>	getclientlist	(void)	const	{return(this->client_list);};
-	
+	std::string					getmodes		(void)	const	{return(this->modes);};
 	/*###########################################
 	#				SETTER						#
 	############################################*/
 	void settopic (std::string str)	{this->topic = str;};
+	void setmodes (std::string str)	{this->modes = str;};
 };
 
 std::ostream &operator<<(std::ostream& os, const channel &tmp);

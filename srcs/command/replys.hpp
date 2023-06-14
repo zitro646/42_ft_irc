@@ -6,7 +6,7 @@
 /*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 17:05:43 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/06/01 22:42:12 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/06/12 23:05:37 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 
 #define RPL_YOUREOPER(client_name)	":" + client_name + " 381 : You are now an IRC operator\r\n"
 
+#define ERR_CANNOTSENDTOCHAN(client_name, canal)	":" + client_name + " " + canal + " 404 :Cannot send to channel\r\n"
 #define ERR_NOORIGIN(client_name)	":" + client_name + " 409 :No origin specified\r\n"
 #define ERR_NOSUCHCHANNEL(client_name , canal)	":" + client_name + " " + canal + " 403 :No such channel\r\n"
 #define ERR_NONICKNAMEGIVEN(client_name)	":" + client_name + " 431 : No nickname given\r\n"

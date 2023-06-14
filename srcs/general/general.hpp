@@ -6,7 +6,7 @@
 /*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 17:05:27 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/06/09 16:39:54 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/06/14 03:48:04 by mortiz-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ typedef struct data_server {
 
 //Struct para almacenar los datos que debe tener el servidor activo
 typedef struct data_running {            
-	bool		status;
+	int		status;
 	int			poll_result;
 	int			new_sd;
 	int			n_active_fds;
