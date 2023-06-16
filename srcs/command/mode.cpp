@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: josuna-t <josuna-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 00:47:48 by miguelangel       #+#    #+#             */
-/*   Updated: 2023/06/14 05:00:32 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/06/16 20:07:16 by josuna-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,19 @@ void server::MODE   (int i , std::string str , data_running *run)
 {
     (void)run;
     int pos = 0;
-    bool sign;
+    int sign;
     std::string canal;
     std::string nickname;
     std::string modes;
     std::vector <std::string>   line;
-
+    int type;
 
     line = split_in_vector(str, ' ');
+    if (line.size() == 1)
+    {
+        this->send_message(this->fds[i].fd, ":" + this->serv_data.host + " 324 " + this->clients[i].getnick() + " " + line[0] + " +C" +this->cha[line[0]].getmodes()+ "\n");
+        this->send_message(this->fds[i].fd, ":" + this->serv_data.host + " 329 " + this->clients[i].getnick() + " " + line[0] + " 1" + "\n");
+    }
     if (line.size() < 2)
         return;
     nickname = line[2];
@@ -33,8 +38,6 @@ void server::MODE   (int i , std::string str , data_running *run)
        return;
        
     //Comprobamos que ambos esten en la lista y que quien manda la orden sea operador del canal
-    if (!(this->cha[canal].is_nick_client_in_list(nickname)))
-        return ;
     if (!(this->cha[canal].is_hostname_client_in_list(this->clients[i].getusername_host())))
         return ;
     if ((this->cha[canal].find_client_by_hostname(this->clients[i].getusername_host())->second.op != 1))
@@ -43,22 +46,26 @@ void server::MODE   (int i , std::string str , data_running *run)
     modes = this->cha[canal].getmodes();
     while (line[1][pos] != 0)
     {
+        type = 1;
         // std::cout << line[1][pos] << std::endl;
         switch (line[1][pos])
         {
             case '+':
             {
-                sign=0;
+                sign=1;
                 break;
             }
             case '-':
-                sign=1;
+                sign=-1;
                 break;
+            case 'n':
+            case 'p':
             case 'm':
             case 's':
             case 't':
             {
-                if (sign == 1)
+                
+                if (sign == -1)
                 {    
                     modes.erase(remove(modes.begin(), modes.end(), line[1][pos]), modes.end());
                 }
@@ -69,18 +76,17 @@ void server::MODE   (int i , std::string str , data_running *run)
                         modes+=line[1][pos];
                     }
                 }
+                std::cout << line[1][pos] << std::endl;
                 break;
             }
+            case 'v':
+                type = 2;
             case 'o':
             {
-                if (sign == 1)
-                {
-                    this->cha[canal].set_user_op_via_nick(nickname,0);
-                }
-                else
-                {
-                    this->cha[canal].set_user_op_via_nick(nickname,1);
-                }
+                if (!(this->cha[canal].is_nick_client_in_list(nickname)))
+                return ;
+                std::cout<< "entra aqu2i\n";
+                this->cha[canal].set_user_op_via_nick(nickname,  this->cha[canal].find_client_by_nickname(line[2])->second.op + (sign * type));
                 break;
             }
         }

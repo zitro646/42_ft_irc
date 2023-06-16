@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: josuna-t <josuna-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:57:25 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/06/14 03:47:47 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/06/16 18:09:12 by josuna-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void server::JOIN	(int i , std::string str , data_running *run)
 				returnlist += check_name(iter->second) + " ";
 			} 
 			returnlist += "\n";
+			this->send_message(this->fds[i].fd, "MODE " + channel + this->cha[channel].getmodes() + "\n");
 			this->send_message(this->fds[i].fd, returnlist);
 			this->send_message(this->fds[i].fd, ":" + this->get_host() + " 366 " + clients[i].getusername_host() + " " + channel + " :End of /NAMES list.\n"); //RPL_
 

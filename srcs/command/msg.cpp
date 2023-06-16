@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msg.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
+/*   By: josuna-t <josuna-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:56:51 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/06/12 23:46:15 by miguelangel      ###   ########.fr       */
+/*   Updated: 2023/06/16 21:09:57 by josuna-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,16 @@ void server::MSG	(int i , std::string str , data_running *run)
 	{
 		if (channel[0] == '#' && this->cha.find(channel) != this->cha.end())
 		{
-			if ((this->cha[channel].getmodes().find('m') != std::string::npos) &&\
-                this->cha[channel].find_client_by_hostname(this->clients[i].getusername_host())->second.op == 0)
+			if (((this->cha[channel].getmodes().find('m') != std::string::npos) &&\
+                this->cha[channel].find_client_by_hostname(this->clients[i].getusername_host())->second.op == 0) || ((this->cha[channel].getmodes().find('n') != std::string::npos && this->cha[channel].is_hostname_client_in_list(this->clients[i].getusername_host()) == false)))
             {
-				std::cout << "canal com m y no es chanop" << std::endl;
                 this->send_message(this->fds[i].fd, ERR_CANNOTSENDTOCHAN( this->clients[i].get_name() , channel));
             }
 			else
+			{
+				std::cout << this->cha[channel].getmodes() << std::endl;
 				this->msg_to_channel(this->fds[i].fd, ":" + this->clients[i].get_name() + " PRIVMSG " + str + "\n", channel);
+			}
 		}
 		else
 			this->msg_to_user(":" + this->clients[i].get_name() + " PRIVMSG " + str + "\n", channel);

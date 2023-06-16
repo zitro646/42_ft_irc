@@ -88,6 +88,9 @@ std::map<std::string, data_client>::iterator	channel::find_client_by_nickname	(s
 
 void	channel::set_user_op_via_nick(std::string nickname, int status)
 {
+  std::cout << status << std::endl;
+  if (status < 0)
+    status = 0;
   std::map<std::string, data_client>::iterator iter;
   std::map<std::string, data_client> cn = this->getclientlist();
   for (iter = cn.begin();iter != cn.end();iter++)
