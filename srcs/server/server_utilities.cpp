@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server_utilities.cpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 18:37:55 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/06/09 16:40:00 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2025/01/18 19:20:51 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ int server::recv_message(int fd , std::string &str)
 		std::cout << "Connection closed "<< std::endl;
 		return (0);;
 	}
-	std::cout << "Valor de str: " << str << std::endl;
+	// std::cout << "Valor de str: " << str << std::endl;
     str = str + std::string(buff,bytes);
 
 	if (!(str.find('\n',0) <  str.size()))

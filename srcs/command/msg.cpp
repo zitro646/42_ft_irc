@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msg.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josuna-t <josuna-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:56:51 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/06/16 21:09:57 by josuna-t         ###   ########.fr       */
+/*   Updated: 2025/01/18 19:59:49 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void server::MSG	(int i , std::string str , data_running *run)
 	std::string channel;
 	
 	channel = str.substr(0, str.find(" ", 0));
-	std::cout << channel << " - " << str << "\n";
+	// std::cout << channel << " - " << str << "\n";
 	if (this->clients[i].check_Client_full_data())
 	{
 		if (channel[0] == '#' && this->cha.find(channel) != this->cha.end())

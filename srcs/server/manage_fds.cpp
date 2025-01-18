@@ -6,7 +6,7 @@
 /*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 03:00:06 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/05/18 20:24:14 by miguelangel      ###   ########.fr       */
+/*   Updated: 2025/01/18 19:29:43 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,8 @@ int	server::accept_client(data_running *run)
 
 int	server::close_fds_client(int i, data_running *run)
 {	
-	this->look_cha();
 	this->erase_client_from_channels(i);
-	std::cout << YELLOW << "- - - - - - - - -" << std::endl;
+	std::cout << MAGENTA << "- - - - - - - - -" << std::endl;
 	this->look_cha();
 	std::cout << WHITE << "- - - - - - - - -" << std::endl;
 	close(this->fds[i].fd);

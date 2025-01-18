@@ -6,7 +6,7 @@
 /*   By: miguelangelortizdelburgo <miguelangelor    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:55:05 by mortiz-d          #+#    #+#             */
-/*   Updated: 2023/06/12 20:32:18 by miguelangel      ###   ########.fr       */
+/*   Updated: 2025/01/18 19:29:03 by miguelangel      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,7 @@ void server::USERNAME	(int client_id , std::string str , data_running *run)
 	std::vector <std::string>	line;
 	std::vector <std::string>	line2;
 
-
-	 std::cout <<YELLOW << "antes del user" << std::endl;
-	this->look_cha();
-	std::cout << RESET;
+	// this->look_cha();
 	
 	line = split_in_vector(str,' ');
 	line2 = split_in_vector(str,':');
@@ -47,9 +44,7 @@ void server::USERNAME	(int client_id , std::string str , data_running *run)
 	else
 		this->send_message(this->fds[client_id].fd,ERR_NEEDMOREPARAMS(this->clients[client_id].get_name()));
 	
-	std::cout <<YELLOW << "Despues del user" << std::endl;
-	this->look_cha();
-	std::cout << RESET;
+	// this->look_cha();
   	return;
 
 	 
