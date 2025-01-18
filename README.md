@@ -92,3 +92,7 @@ The server supports the following commands specific to channel operators:
 ## IRSSI Documentation
 
 - [IRSSI Rawlog Help](https://irssi.org/documentation/help/rawlog/)
+
+## Authors
+
+This proyect was made by [mortiz-d](https://github.com/zitro646) y [josuna-t](https://github.com/Raugo)
