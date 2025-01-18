@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux_functions.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mortiz-d <mortiz-d@student.42.fr>          +#+  +:+       +#+        */
+/*   By: josuna-t <josuna-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 13:33:58 by mortiz-d          #+#    #+#             */
-/*   Updated: 2022/12/06 13:38:13 by mortiz-d         ###   ########.fr       */
+/*   Updated: 2023/05/26 19:05:25 by josuna-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,30 @@
 
 std::vector<std::string> split_in_vector(std::string str, char c)
 {
-    std::stringstream 			test(str);
+     std::stringstream 			test(str);
     std::string 				segment;
     std::vector <std::string>	seglist;
 
     while (std::getline(test,segment,c))
-    	seglist.push_back(segment);
-    return (seglist);
+    {
+        size_t last_char = segment.find_last_of('\r');
+        if (last_char != std::string::npos) 
+            segment.erase(last_char);
+        seglist.push_back(segment);
+    }
+
+    return seglist;
 }
 
 int find_single_word_on_str (std::string str , std::string word)
 {
-    for (int x = str.find(word); x != -1; x = str.find(word))
+    std::string newstr(str);
+    for (int x = newstr.find(word); x != -1; x = newstr.find(word))
     {
-        if (str[x + word.length()] == ' ')
+        if (newstr[x + word.length()] == ' ' || newstr[x + word.length()] == '\0')
             return (x);
         else
-            str = &str[x + word.length()];
+            newstr = &newstr[x + word.length()];
     }
     return (-1);
 }
@@ -44,4 +51,48 @@ int str_end_word_position (std::string str , std::string end)
   // std::cout << "crash1.2" << std::endl;
   aux += end.length();
   return (aux);
+}
+
+std::string get_Time_now (void)
+{
+    std::time_t now = time(0);
+    char* date_time = ctime(&now);
+
+    return (date_time);
+}
+
+bool    check_nickname_restrictions (std::string nick)
+{
+    if (nick.empty() || nick.length() > NICK_LENGTH)
+        return (0);
+    if (nick.find_first_of(" ,*?!@.") <= nick.length())
+        return (0);
+    if (nick[0] == '$' || nick[0] == ':')
+    	return (0);
+    if (nick[0] == '&' || nick[0] == '#')
+    	return (0);
+    return (1);
+}
+
+bool    check_username_restrictions (std::string username)
+{
+	if (username.empty() || username.length() > USER_LENGTH)
+        return (0);
+    // if (username.find_first_of(" ,*?!@.") <= username.length())
+    //     return (0);
+    // if (username[0] == '$' || username[0] == ':')
+    // 	return (0);
+    // if (username[0] == '&' || username[0] == '#')
+    // 	return (0);
+    return (1);
+}
+
+std::string check_name(data_client data)
+{
+    if (data.op == 1)
+        return('@' + data.nick);
+    else if (data.op == 2)
+        return ('+' + data.nick);
+    else 
+        return (data.nick);
 }

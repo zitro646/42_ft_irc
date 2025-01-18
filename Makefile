@@ -9,6 +9,10 @@ RESET 	= "\033[1;0m"
 # VARIABLES #
 #
 NAME 		= ircserv
+
+PORT		= 6667
+IP			= 127.0.0.1
+PASS		= pass
 CC 			= c++
 INCLUDE 	= -std=c++98
 CXXFLAGS 	= -Wall -Wextra -Werror
@@ -19,25 +23,27 @@ SRC_PATH    	= srcs
 SUBFILE1_PATH   = server
 SUBFILE2_PATH   = server_objects
 SUBFILE4_PATH   = general
-SUBFILE5_PATH   = commands
+SUBFILE3_PATH   = command
 OBJ_PATH    	= objects
 TEST_PATH		= test
 
 # SOURCES #
 
-SUBFILE1_SRC = server.cpp server_comm.cpp server_set_up.cpp  server_utilities.cpp
+SUBFILE1_SRC = server.cpp server_comm.cpp server_utilities.cpp manage_fds.cpp
 
-SUBFILE2_SRC = client.cpp 
+SUBFILE2_SRC = client.cpp channel.cpp
 
-SUBFILE4_SRC = aux_functions.cpp check_input_data.cpp
+SUBFILE3_SRC = join.cpp list.cpp msg.cpp nick.cpp part.cpp pong.cpp quit.cpp user.cpp\
+				operator.cpp kill.cpp topic.cpp notice.cpp names.cpp kick.cpp invite.cpp\
+				restart.cpp mode.cpp
 
-SUBFILE5_SRC = commands.cpp
+SUBFILE4_SRC = aux_functions.cpp check_input_data.cpp socket_set_up.cpp
 
-SRC =  	main.cpp \
-		$(addprefix $(SUBFILE1_PATH)/, $(SUBFILE1_SRC)) \
+SRC =	main.cpp \
+		$(addprefix $(SUBFILE3_PATH)/, $(SUBFILE3_SRC)) \
 		$(addprefix $(SUBFILE2_PATH)/, $(SUBFILE2_SRC)) \
 		$(addprefix $(SUBFILE4_PATH)/, $(SUBFILE4_SRC)) \
-		$(addprefix $(SUBFILE5_PATH)/, $(SUBFILE5_SRC)) 
+		$(addprefix $(SUBFILE1_PATH)/, $(SUBFILE1_SRC)) \
 
 
 
@@ -55,7 +61,7 @@ $(OBJ_PATH):
 	mkdir -p $(addprefix $(OBJ_PATH)/, $(SUBFILE1_PATH))
 	mkdir -p $(addprefix $(OBJ_PATH)/, $(SUBFILE2_PATH))
 	mkdir -p $(addprefix $(OBJ_PATH)/, $(SUBFILE4_PATH))
-	mkdir -p $(addprefix $(OBJ_PATH)/, $(SUBFILE5_PATH))
+	mkdir -p $(addprefix $(OBJ_PATH)/, $(SUBFILE3_PATH))
 
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.cpp | $(OBJ_PATH)
@@ -80,4 +86,8 @@ fclean: clean
 
 re: fclean all
 
-PHONY.: all clean fclean re
+launch: all
+	clear
+	./$(NAME) $(IP):$(PORT):$(PASS) $(PORT) $(PASS)
+
+PHONY.: all clean fclean re launch

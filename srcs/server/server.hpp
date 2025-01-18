@@ -1,24 +1,22 @@
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
+
 #include "../general/general.hpp"
-#include "I_server.hpp"
-#include "../commands/I_commands.hpp"
 #include "../server_objects/objects.hpp"
 
 
 
-class	server : public I_server , public I_commands
+class server
 {
 
 	private:
 
-		pollfd				fds[N_CLIENTS];
+		std::map<std::string, channel> cha;
 		client				clients[N_CLIENTS];
-		//channel				channel[N_CLIENTS];
-		int					listening_socket;
+		pollfd				fds[N_CLIENTS];
 		data_server 		serv_data;
-
+		// std::map<std::string, std::map<std::string, int> > channels;
 
 		/*###########################################
 		#			CLOSED    	FUNCTIONS			#
@@ -31,38 +29,52 @@ class	server : public I_server , public I_commands
 		void	search_fds		(data_running *run);
 		int		accept_client	(data_running *run);
 		int		recieve_data	(data_running *run, int i);
-		int		msg_to_channel		(int i, std::string str);
+		int 	msg_to_all		(int fd, std::string str, data_running *run);
+		int		msg_to_channel  (int i, std::string str, std::string channel);
+		int		msg_to_user  	(std::string str, std::string user_nick);
 		int		close_fds_client(int i, data_running *run);
 		void	analize_msg		(int i , std::string str , data_running *run);
 
 		/*###########################################
 		#		UTILITIES    	FUNCTIONS			#
 		############################################*/
-		int		find_client_nick		(std::string str, data_running *run);
-		int 	find_client_username	(std::string str, data_running *run);
-		int		find_client_realname	(std::string str, data_running *run);
+		int		find_client_by_hostname_nick		(std::string str, data_running *run);
+		int 	find_client_by_hostname_username	(std::string str, data_running *run);
+		int		find_client_by_hostname_realname	(std::string str, data_running *run);
+		int		get_client_id_by_nick	(std::string nick, data_running *run);
+		void	erase_client_from_channels(int id);
 		int		recv_message			(int fd, std::string &str);
 		int		send_message			(int fd, std::string str);
-		int		check_client_NICK_USER	(int i);
-		// int 	check_channel_exist		(std::string str);
-		// int		channel_possition		(std::string str);
 
 
 		/*###########################################
 		#			DEBUG    	FUNCTIONS			#
 		############################################*/
 		void fds_search_data(void) const;
+		void look_channels(void)const;
+		void look_cha(void)const;
 
 		/*###########################################
 		#			COMMANDS    FUNCTIONS			#
 		############################################*/
 		typedef void (server::*funptr) (int i , std::string str , data_running *run);
-		void 	welcome_client		(int fd);
-		void	extract_MSG			(int i , std::string str , data_running *run);
-		void	extract_USERNAME	(int i , std::string str , data_running *run);
-		void	extract_NICK		(int i , std::string str , data_running *run);
-		void	extract_JOIN		(int i , std::string str , data_running *run);
-		void 	DISCONNECT_client	(int i , std::string str , data_running *run);
+		void	MSG					(int i , std::string str , data_running *run);
+		void	USERNAME			(int i , std::string str , data_running *run);
+		void	NICK				(int i , std::string str , data_running *run);
+		void	JOIN				(int i , std::string str , data_running *run);
+		void 	QUIT				(int i , std::string str , data_running *run);
+		void 	PART				(int i , std::string str , data_running *run);
+		void 	PONG				(int i , std::string str , data_running *run);
+		void 	LIST				(int i , std::string str , data_running *run);
+		void 	OPER				(int i , std::string str , data_running *run);
+		void 	KILL				(int i , std::string str , data_running *run);
+		void 	TOPIC				(int i , std::string str , data_running *run);
+		void 	NOTICE				(int i , std::string str , data_running *run);
+		void	NAMES				(int i , std::string str , data_running *run);
+		void	KICK				(int i , std::string str , data_running *run);
+		void	INVITE				(int i , std::string str , data_running *run);
+		void	RESTART				(int i , std::string str , data_running *run);
+		void	MODE				(int i , std::string str , data_running *run);
 
 	public:
 
@@ -83,7 +95,6 @@ class	server : public I_server , public I_commands
 		/*###########################################
 		#			INTERFACE	FUNCTIONS			#
 		############################################*/
-		int		server_listening	(void);
 		int		start				(void);
 };
 
